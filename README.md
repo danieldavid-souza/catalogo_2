@@ -29,7 +29,24 @@ Bem-vindo ao repositório oficial do **Catálogo Online de Produtos para Sublima
 
 ## 📁 Estrutura de Diretórios
 
-📦 lima-calixto-catalogo ├── 📁 public/ # Arquivos estáticos (imagens, favicon, etc.) ├── 📁 src/ # Código-fonte principal │ ├── 📁 components/ # Componentes reutilizáveis │ ├── 📁 pages/ # Páginas do catálogo │ ├── 📁 assets/ # Estilos, fontes, imagens │ └── 📁 utils/ # Funções auxiliares ├── 📄 README.md # Este arquivo ├── 📄 .gitignore # Arquivos ignorados pelo Git ├── 📄 package.json # Dependências e scripts └── 📄 LICENSE # Licença do projeto
+📦 lima-calixto-catalogo
+├── 📁 catalogo_2/
+│   └── index.html
+├── 📁 src/
+│   ├── 📁 assets/
+│   │   └── styles.css
+│   ├── 📁 components/
+│   │   └── ProductCard.js
+│   ├── 📁 pages/
+│   │   └── Home.js
+│   ├── 📁 utils/
+│   │   └── products.js
+│   └── index.js
+├── 📄 .gitignore
+├── 📄 README.md
+├── 📄 package.json
+└── 📄 LICENSE
+
 
 📞 Contato
 📧 Email: limacalixtopersonalizados@gmail.com
