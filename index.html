@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo Lima Calixto</title>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/lightbox.css" />
+  <link rel="stylesheet" href="css/botao-whatsapp.css" />
+</head>
+<body>
+  <header>
+    <h1>Catálogo Lima Calixto</h1>
+    <p>💖 Emoção nos detalhes. Propósito em cada presente.</p>
+    <div id="filtros">
+      <input type="text" id="busca" placeholder="Buscar por nome ou descrição" />
+      <input type="number" id="preco-min" placeholder="Preço mínimo" />
+      <input type="number" id="preco-max" placeholder="Preço máximo" />
+      <select id="categoria">
+        <option value="Todos">Todas as Categorias</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section id="Sublimação">
+      <h2>Sublimação</h2>
+      <div class="grid" id="sublimacao-grid"></div>
+    </section>
+
+    <section id="Personalizados">
+      <h2>Personalizados</h2>
+      <div class="grid" id="personalizados-grid"></div>
+    </section>
+
+    <section id="Convites Digitais">
+      <h2>Convites Digitais</h2>
+      <div class="grid" id="convites-digitais-grid"></div>
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox hidden">
+    <div class="lightbox-content">
+      <span class="close-btn">&times;</span>
+      <img id="lightbox-img" src="" alt="">
+      <p id="lightbox-desc"></p>
+    </div>
+  </div>
+
+  <!-- 📌 Rodapé com informações e links sociais -->
+  <footer class="rodape">
+    <p>&copy; 2025 Daniel | Todos os direitos reservados.</p>
+    <div class="social">
+      <a href="https://instagram.com/limacalixtopersonalizados" target="_blank" aria-label="Instagram">Instagram</a>
+      <a href="https://github.com/danieldavid-souza" target="_blank" aria-label="GitHub">GitHub</a>
+      <a href="mailto:danieldavid.souza@gmail.com" aria-label="Email">Contato</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/mensagem-whatsapp.js"></script>
+  <script src="js/lightbox.js"></script>
+  <script src="js/filtros.js"></script>
+  <script src="js/produtos.js"></script>
+</body>
+</html>

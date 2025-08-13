@@ -30,22 +30,28 @@ Bem-vindo ao repositório oficial do **Catálogo Online de Produtos para Sublima
 ## 📁 Estrutura de Diretórios
 
 📦 lima-calixto-catalogo
-├── 📁 catalogo_2/
-│   └── index.html
-├── 📁 src/
-│   ├── 📁 assets/
-│   │   └── styles.css
-│   ├── 📁 components/
-│   │   └── ProductCard.js
-│   ├── 📁 pages/
-│   │   └── Home.js
-│   ├── 📁 utils/
-│   │   └── products.js
-│   └── index.js
-├── 📄 .gitignore
-├── 📄 README.md
-├── 📄 package.json
-└── 📄 LICENSE
+├── catalogo_2/
+├── index.html
+├── css/
+│   └── index.css
+	└── lightbox.css
+	└── botao-whatsapp.css
+├── js/
+│   └── ligthbox.js
+	└── produtos.js
+	└── filtros.js
+	└── mensagem-whatsapp.js
+├── data/
+│   └── produtos.json
+├── imagens/
+│   └── (convites)
+			└── casamento.jpg
+	└── (personalizados)
+			└── chaveiro-acrilico.jpg
+	└── (sublimacao)
+			└── caneca1.jpg
+└── icons/
+    └── whatsapp.svg
 
 
 📞 Contato

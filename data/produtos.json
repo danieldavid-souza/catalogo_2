@@ -1,0 +1,156 @@
+[
+  {
+    "nome": "Caneca de Branca",
+    "descricao": "Capacidade: 325ml Material: Porcelana. Tamanho Ideal: Ideal para café, chá e outras bebidas. Ideal Para: Presentes, uso diário ou personalização!",
+    "categoria": "Sublimação",
+    "preco": 38.00,
+    "imagem": "imagens/sublimacao/caneca1.jpg"
+  },
+  {
+    "nome": "Caneca Jateada de Vidro",
+    "descricao": "Capacidade: 475ml. Ideal Para: Presente, uso diário ou personalização!",
+    "categoria": "Sublimação",
+    "preco": 50.0,
+    "imagem": "imagens/sublimacao/caneca2.jpg"
+  },
+  {
+    "nome": "caneca de alumínio",
+    "descricao": "Capacidade 600ml. Perfeita para o seu dia a dia ou para presentear. O brilho do alumínio proporciona um visual moderno e elegante. É ideal para o dia a dia. Perfeita para personalizar com logo de time, frases ou nome!",
+    "categoria": "Sublimação",
+    "preco": 35.00,
+    "imagem": "imagens/sublimacao/caneca3.jpg"
+  },
+  {
+    "nome": "Caneca de Polímero",
+    "descricao": "Com 325ml de capacidade, é perfeita para o seu dia a dia. Feita para acompanhar seus momentos favoritos. Ideal para personalizar com fotos, frases ou nome!",
+    "categoria": "Sublimação",
+    "preco": 35.00,
+    "imagem": "imagens/sublimacao/caneca4.jpg"
+  },
+  {
+    "nome": "Azulejo Sublimático",
+    "descricao": "Tamanho 20x20cm. Perfeito para Presente! Transforme seu azulejo em um presente especial e personalizado com nomes, datas ou frases. Ideal para decorar casa ou escritório, com a técnica de sublimação que garante cores vibrantes!",
+    "categoria": "Sublimação",
+    "preco": 40.00,
+    "imagem": "imagens/sublimacao/azulejo.jpg"
+  },
+  {
+    "nome": "Relógio MDF Sublimato",
+    "descricao": "Perfeito para Presentear! Decore sua casa ou presenteie alguém especial com este lindo relógio MDF sublimático. Ideal para: Decorar mesas, quartos ou presentear!",
+    "categoria": "Sublimação",
+    "preco": 40.00,
+    "imagem": "imagens/sublimacao/relogio.jpg"
+  },
+  {
+    "nome": "Plaquinha MDF Sublimático",
+    "descricao": "Tamanho A4. Perfeita para projetos em sublimação, ideal para fotos e designs que ganham vida com a impressão em alto brilho. Ideal para personalizar!",
+    "categoria": "Sublimação",
+    "preco": 30.00,
+    "imagem": "imagens/sublimacao/plaquinha.jpg"
+  },
+  {
+    "nome": "Agenda Sublimática",
+    "descricao": "Nossa agenda, com capa em MDF, é a escolha ideal para quem busca qualidade e um toque especial. Com design elegante e durável, ela é perfeita para ser personalizada com suas frases, logos ou fotos favoritas!",
+    "categoria": "Sublimação",
+    "preco": 65.00,
+    "imagem": "imagens/sublimacao/agenda.jpg"
+  },
+  {
+    "nome": "Chaveiro Redondo Sublimático",
+    "descricao": "erfeito para presentear! Este charmoso chaveiro é feito em MDF com um lindo design sublimado. Comprimento de 5 cm de diâmetro, é perfeito para levar na bolsa ou no carro!",
+    "categoria": "Sublimação",
+    "preco": 5.00,
+    "imagem": "imagens/sublimacao/chaveiro.jpg"
+  },
+  {
+    "nome": "Camisa Branca Sublimpática",
+    "descricao": "Camisa Branca Sublimática - Perfeição em cada detalhe! Feita em 100% poliéster, esta camisa é ideal para quem busca conforto e estilo. O design sublimático garante que a estampa dure mais, mesmo nas lavagens!",
+    "categoria": "Sublimação",
+    "preco": 40.00,
+    "imagem": "imagens/sublimacao/camiseta1.jpg"
+  },
+  {
+    "nome": "Camisa Cinza Sublimática",
+    "descricao": " Perfeita para trabalho! Feita em 100% poliéster, esta camisa oferece conforto e durabilidade. Ideal para personalizar com sua logo!",
+    "categoria": "Sublimação",
+    "preco": 50.00,
+    "imagem": "imagens/sublimacao/camiseta2.jpg"
+  },
+  {
+    "nome": "Chaveiro Acrílico",
+    "descricao": "Personalizado com nome, frase ou foto frente e verso! ",
+    "categoria": "Personalizados",
+    "preco": 5.00,
+    "imagem": "imagens/personalizados/chaveiro.jpg"
+  },
+  {
+    "nome": "Plaquinha Acrílica",
+    "descricao": "Personalize com QR CODE: PIX, Intagram! ",
+    "categoria": "Personalizados",
+    "preco": 15.00,
+    "imagem": "imagens/personalizados/plaquinha.jpg"
+  },
+  {
+    "nome": "Calendário de Mesa",
+    "descricao": "Calendário de Mesa Triangular: Um elegante calendário que assume a forma triangular. Perfeito para organizar sua mesa de escritório ou adicionar um toque de estilo a qualquer ambiente! ",
+    "categoria": "Personalizados",
+    "preco": 10.00,
+    "imagem": "imagens/personalizados/calendario.jpg"
+  },
+  {
+    "nome": "Convite Digital de Casamento",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/casamento1.jpg"
+  },
+  {
+    "nome": "Convite Digital de Casamento",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/casamento2.jpg"
+  },
+  {
+    "nome": "Convite Digital de Aniversário",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/aniversario1.jpg"
+  },
+  {
+    "nome": "Convite Digital de Aniversário",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/aniversario2.jpg"
+  },
+  {
+    "nome": "Convite Digital Churrasco",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/debutante1.jpg"
+  },
+  {
+    "nome": "Convite Digital de CHurrasco",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/debutante2.jpg"
+  },
+  {
+    "nome": "Convite Digital Churrasco",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/churrasco1.jpg"
+  },
+  {
+    "nome": "Convite Digital de CHurrasco",
+    "descricao": "Compartilhe a alegria e os melhores momentos com um convite digital elegante e personalizado. Crie memórias inesquecíveis com um convite digital especial!",
+    "categoria": "Convites Digitais",
+    "preco": 29.90,
+    "imagem": "imagens/convites/churrasco2.jpg"
+  }
+]

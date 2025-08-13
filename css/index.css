@@ -1,0 +1,240 @@
+/* ============================================================
+   🔄 Reset básico para consistência entre navegadores
+============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   🧍 Estilo base do corpo
+============================================================ */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   🧭 Cabeçalho
+============================================================ */
+header {
+  background-color: #4a148c;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: clamp(1.5rem, 2vw, 2.5rem); /* Fonte responsiva */
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1rem;
+}
+
+/* ============================================================
+   🔍 Filtros de busca
+============================================================ */
+#filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#filtros input,
+#filtros select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 180px;
+}
+
+/* ============================================================
+   🛍️ Seções de produtos
+============================================================ */
+main {
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #4a148c;
+  text-align: center;
+}
+
+/* ============================================================
+   🧱 Grid de cards
+============================================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   📦 Card individual
+============================================================ */
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  will-change: transform;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin: 10px 0 5px;
+}
+
+.card p {
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.card .preco {
+  font-weight: bold;
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+/* ============================================================
+   🧾 Rodapé
+============================================================ */
+.rodape {
+  background-color: #4a148c;
+  color: #f0f0f0;
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+}
+
+.rodape p {
+  margin: 0 0 15px;
+  font-weight: 500;
+}
+
+.rodape .social {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.rodape .social a {
+  color: #f0f0f0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 600;
+}
+
+.rodape .social a:hover {
+  color: #ff9800;
+}
+
+/* ============================================================
+   🌍 Imagens responsivas (regra global)
+============================================================ */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   📱 Responsividade: Mobile (até 600px)
+============================================================ */
+@media (max-width: 600px) {
+  #filtros {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rodape .social {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* ============================================================
+   💻 Responsividade: Tablets (601px a 1024px)
+============================================================ */
+@media (max-width: 1024px) and (min-width: 601px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  section h2 {
+    font-size: 1.3rem;
+  }
+
+  #filtros {
+    justify-content: space-around;
+  }
+}
+
+/* ============================================================
+   🌙 Modo escuro automático (detecta preferência do sistema)
+============================================================ */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  header,
+  .rodape {
+    background-color: #1f1f1f;
+    color: #ffffff;
+  }
+
+  .card {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+  }
+
+  .card .preco {
+    color: #81c784;
+  }
+
+  .rodape .social a:hover {
+    color: #ffb74d;
+  }
+
+  section h2 {
+    color:#ffffff; /* Títulos brancos no modo escuro */
+  }
+}
