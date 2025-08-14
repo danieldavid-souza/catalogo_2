@@ -7,6 +7,12 @@ fetch('data/produtos.json')
     popularFiltroCategorias(produtos);
   });
 
+  //===============================================================================//
+  document.getElementById('loading').classList.remove('hidden');
+  // Após carregar os produtos:
+  document.getElementById('loading').classList.add('hidden');
+  //===============================================================================//
+
 // Renderiza os cards em suas respectivas seções
 function renderizarCategorias(produtos) {
   const seções = {

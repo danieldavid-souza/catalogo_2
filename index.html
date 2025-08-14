@@ -22,6 +22,8 @@
     </div>
   </header>
 
+  <div id="loading" class="loading hidden">Carregando produtos...</div>
+
   <main>
     <section id="Sublimação">
       <h2>Sublimação</h2>
@@ -42,7 +44,7 @@
   <!-- Lightbox -->
   <div id="lightbox" class="lightbox hidden">
     <div class="lightbox-content">
-      <span class="close-btn">&times;</span>
+      <span class="close-btn" aria-label="Fechar lightbox">&times;</span>
       <button id="btnAnterior" class="nav-btn anterior">◀</button>
       <button id="btnProximo" class="nav-btn proximo">▶</button>
       <img id="lightbox-img" src="" alt="">
@@ -62,9 +64,9 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/mensagem-whatsapp.js"></script>
-  <script src="js/lightbox.js"></script>
-  <script src="js/filtros.js"></script>
-  <script src="js/produtos.js"></script>
+  <script src="js/mensagem-whatsapp.js" defer></script>
+  <script src="js/produtos.js" defer></script>
+  <script src="js/lightbox.js" defer></script>
+  <script src="js/filtros.js" defer></script>
 </body>
 </html>
