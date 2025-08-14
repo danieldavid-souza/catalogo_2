@@ -28,6 +28,13 @@
     "imagem": "imagens/sublimacao/caneca4.jpg"
   },
   {
+    "nome": "Squeeze de Alumínio",
+    "descricao": "Capacidade 500ml ideal para água, sucos ou bebidas geladas. Versatilidade – Pode ser usado na cozinha, academia, viagens, trilhas ou no escritório! Personalize com frase, logo, escudo do seu time.",
+    "categoria": "Sublimação",
+    "preco": 35.00,
+    "imagem": "imagens/sublimacao/squeeze.jpg"
+  },
+  {
     "nome": "Azulejo Sublimático",
     "descricao": "Tamanho 20x20cm. Perfeito para Presente! Transforme seu azulejo em um presente especial e personalizado com nomes, datas ou frases. Ideal para decorar casa ou escritório, com a técnica de sublimação que garante cores vibrantes!",
     "categoria": "Sublimação",
@@ -96,6 +103,13 @@
     "categoria": "Personalizados",
     "preco": 10.00,
     "imagem": "imagens/personalizados/calendario.jpg"
+  },
+  {
+    "nome": "Calendário de Mesa",
+    "descricao": "Calendário de Mesa Triangular: Um elegante calendário que assume a forma triangular. Perfeito para organizar sua mesa de escritório ou adicionar um toque de estilo a qualquer ambiente! ",
+    "categoria": "Personalizados",
+    "preco": 10.00,
+    "imagem": "imagens/personalizados/calendario2.jpg"
   },
   {
     "nome": "Convite Digital de Casamento",
