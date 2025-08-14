@@ -9,6 +9,8 @@ fetch('data/produtos.json')
     renderizarCategorias(produtos);
     popularFiltroCategorias(produtos);
 
+      inicializarFiltros(produtos);
+
     // Esconde o loading após o carregamento
     document.getElementById('loading').classList.add('hidden');
   })
