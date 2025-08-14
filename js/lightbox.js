@@ -3,7 +3,7 @@ const lightboxImg = document.getElementById('lightbox-img');
 const lightboxDesc = document.getElementById('lightbox-desc');
 const closeBtn = document.querySelector('.close-btn');
 
-let produtoAtualIndex = null;
+let produtoAtualIndex = 0;
 let produtosLightbox = [];
 
 // Abre o lightbox com base no índice do produto
@@ -50,3 +50,82 @@ document.addEventListener('keydown', e => {
     atualizarLightbox(produtosLightbox[produtoAtualIndex]);
   }
 });
+
+/*=======================================================================================================*/
+// Detecta gestos de swipe em dispositivos móveis
+//const lightbox = document.getElementById('lightbox');
+//const lightboxImagem = document.getElementById('lightboxImagem');
+//const contadorLightbox = document.getElementById('contadorLightbox');
+//const produtosLightbox = [/* array com URLs das imagens */];
+//let produtoAtualIndex = 0;
+
+// Atualiza imagem e contador
+function atualizarLightbox(imagemUrl) {
+  lightboxImagem.src = imagemUrl;
+  contadorLightbox.textContent = `Imagem ${produtoAtualIndex + 1} de ${produtosLightbox.length}`;
+}
+
+// Abrir lightbox
+function abrirLightbox(index) {
+  produtoAtualIndex = index;
+  atualizarLightbox(produtosLightbox[index]);
+  lightbox.classList.remove('hidden');
+}
+
+// Fechar com ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    lightbox.classList.add('hidden');
+  }
+});
+
+// Navegação por teclado
+document.addEventListener('keydown', (e) => {
+  if (lightbox.classList.contains('hidden')) return;
+
+  if (e.key === 'ArrowRight') {
+    produtoAtualIndex = (produtoAtualIndex + 1) % produtosLightbox.length;
+    atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+  } else if (e.key === 'ArrowLeft') {
+    produtoAtualIndex = (produtoAtualIndex - 1 + produtosLightbox.length) % produtosLightbox.length;
+    atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+  }
+});
+
+// Botões visuais
+document.getElementById('btnAnterior').addEventListener('click', () => {
+  produtoAtualIndex = (produtoAtualIndex - 1 + produtosLightbox.length) % produtosLightbox.length;
+  atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+});
+
+document.getElementById('btnProximo').addEventListener('click', () => {
+  produtoAtualIndex = (produtoAtualIndex + 1) % produtosLightbox.length;
+  atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+});
+
+// Swipe para mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+lightbox.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+lightbox.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipeGesture();
+});
+
+function handleSwipeGesture() {
+  if (lightbox.classList.contains('hidden')) return;
+
+  const swipeThreshold = 50;
+
+  if (touchEndX < touchStartX - swipeThreshold) {
+    produtoAtualIndex = (produtoAtualIndex + 1) % produtosLightbox.length;
+    atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+  } else if (touchEndX > touchStartX + swipeThreshold) {
+    produtoAtualIndex = (produtoAtualIndex - 1 + produtosLightbox.length) % produtosLightbox.length;
+    atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+  }
+}

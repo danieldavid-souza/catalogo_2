@@ -56,3 +56,31 @@
 .close-btn:hover {
   color: #000;
 }
+
+/*=========================================================================================*/
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 0.5rem;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.anterior { left: 10px; }
+.proximo { right: 10px; }
+
+.contador {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
