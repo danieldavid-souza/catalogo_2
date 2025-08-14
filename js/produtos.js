@@ -1,3 +1,6 @@
+// Mostra o loading antes de iniciar o fetch
+document.getElementById('loading').classList.remove('hidden');
+
 // Carrega os produtos e renderiza os cards por categoria
 fetch('data/produtos.json')
   .then(res => res.json())
@@ -5,13 +8,14 @@ fetch('data/produtos.json')
     window.todosProdutos = produtos; // Disponível globalmente
     renderizarCategorias(produtos);
     popularFiltroCategorias(produtos);
-  });
 
-  //===============================================================================//
-  document.getElementById('loading').classList.remove('hidden');
-  // Após carregar os produtos:
-  document.getElementById('loading').classList.add('hidden');
-  //===============================================================================//
+    // Esconde o loading após o carregamento
+    document.getElementById('loading').classList.add('hidden');
+  })
+  .catch(err => {
+    console.error('Erro ao carregar produtos:', err);
+    document.getElementById('loading').textContent = 'Erro ao carregar produtos.';
+  });
 
 // Renderiza os cards em suas respectivas seções
 function renderizarCategorias(produtos) {
