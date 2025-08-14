@@ -238,3 +238,7 @@ img {
     color:#ffffff; /* Títulos brancos no modo escuro */
   }
 }
+
+.hidden {
+  display: none;
+}
