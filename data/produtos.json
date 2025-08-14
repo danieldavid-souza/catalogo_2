@@ -1,7 +1,7 @@
 [
   {
     "nome": "Caneca de Branca",
-    "descricao": "Capacidade: 325ml Material: Porcelana. Tamanho Ideal: Ideal para café, chá e outras bebidas. Ideal Para: Presentes, uso diário ou personalização!",
+    "descricao": "Capacidade: 325ml Material: Porcelana. Tamanho Ideal para café, chá e outras bebidas. Personalize com frase, logo, foto!",
     "categoria": "Sublimação",
     "preco": 38.00,
     "imagem": "imagens/sublimacao/caneca1.jpg"
@@ -15,7 +15,7 @@
   },
   {
     "nome": "caneca de alumínio",
-    "descricao": "Capacidade 600ml. Perfeita para o seu dia a dia ou para presentear. O brilho do alumínio proporciona um visual moderno e elegante. É ideal para o dia a dia. Perfeita para personalizar com logo de time, frases ou nome!",
+    "descricao": "Capacidade 600ml. Perfeita para o seu dia a dia ou para presentear. O brilho do alumínio proporciona um visual moderno e elegante. Perfeita para personalizar com o escudo do seu time, frases ou nome!",
     "categoria": "Sublimação",
     "preco": 35.00,
     "imagem": "imagens/sublimacao/caneca3.jpg"
@@ -36,14 +36,14 @@
   },
   {
     "nome": "Azulejo Sublimático",
-    "descricao": "Tamanho 20x20cm. Perfeito para Presente! Transforme seu azulejo em um presente especial e personalizado com nomes, datas ou frases. Ideal para decorar casa ou escritório, com a técnica de sublimação que garante cores vibrantes!",
+    "descricao": "Tamanho 20x20cm. Perfeito para Presente! Este azulejo é um presente especial e pode ser personalizado com nomes, datas especiais ou frases. Ideal para decorar casa ou escritório, com a técnica de sublimação que garante cores vibrantes!",
     "categoria": "Sublimação",
     "preco": 40.00,
     "imagem": "imagens/sublimacao/azulejo.jpg"
   },
   {
     "nome": "Relógio MDF Sublimato",
-    "descricao": "Perfeito para Presentear! Decore sua casa ou presenteie alguém especial com este lindo relógio MDF sublimático. Ideal para: Decorar mesas, quartos ou presentear!",
+    "descricao": "Perfeito para Presentear! Decore sua casa ou presenteie alguém especial com este lindo relógio MDF sublimático. Ideal para: Decorar mesas, escritórios decore sue ambiente com este lindo Relógio!",
     "categoria": "Sublimação",
     "preco": 40.00,
     "imagem": "imagens/sublimacao/relogio.jpg"
@@ -64,7 +64,7 @@
   },
   {
     "nome": "Chaveiro Redondo Sublimático",
-    "descricao": "erfeito para presentear! Este charmoso chaveiro é feito em MDF com um lindo design sublimado. Comprimento de 5 cm de diâmetro, é perfeito para levar na bolsa ou no carro!",
+    "descricao": "Perfeito para presentear! Este charmoso chaveiro é feito em MDF com um lindo design sublimado. Comprimento de 5 cm de diâmetro, é perfeito para levar na bolsa ou no carro!",
     "categoria": "Sublimação",
     "preco": 5.00,
     "imagem": "imagens/sublimacao/chaveiro.jpg"
