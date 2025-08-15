@@ -1,5 +1,5 @@
 function gerarLinkWhatsApp(produto, numeroVendedor, idioma = 'pt', tags = []) {
-  const mensagem = `Olá! Gostaria de saber mais sobre o produto "${produto.nome}" - ${produto.descricao}`;
+  const mensagem = `Olá Marli! Gostaria de saber mais sobre o produto "${produto.nome}" - ${produto.descricao}`;
   const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagem)}&lang=${idioma}`;
 
   // Adiciona tags como parâmetros extras (opcional)
@@ -13,9 +13,9 @@ function gerarLinkWhatsApp(produto, numeroVendedor, idioma = 'pt', tags = []) {
 
 // 📞 Mapeamento de números por categoria
 const vendedoresPorCategoria = {
-  'Sublimação': '5532991111111',
-  'Personalizados': '5532992222222',
-  'Convites Digitais': '5532993333333'
+  'Sublimação': '5532991657472',
+  'Personalizados': '5532991657472',
+  'Convites Digitais': '5532991657472'
 };
 
 function renderizarCategorias(produtos) {
