@@ -98,10 +98,14 @@ function renderizarCategorias(produtos) {
  * @param {Array} tags - tags para rastreamento
  * @returns {string} - URL do WhatsApp
  */
-function gerarLinkWhatsApp(produto, numero, idioma, tags = []) {
-  const mensagem = encodeURIComponent(`Olá! Tenho interesse no produto "${produto.nome}".`);
-  const tagString = tags.length ? `&text=${mensagem}%0A%0ATags: ${tags.join(', ')}` : `&text=${mensagem}`;
-  return `https://wa.me/${numero}?lang=${idioma}${tagString}`;
+function gerarLinkWhatsApp(produto, numeroVendedor, idioma = 'pt', tags = []) {
+  const mensagemBase = `Olá Marli! Gostaria de saber mais sobre o produto "${produto.nome}" - ${produto.descricao}`;
+  const mensagemComTags = tags.length
+    ? `${mensagemBase}\n\nTags: ${tags.join(', ')}`
+    : mensagemBase;
+
+  const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagemComTags)}&lang=${idioma}`;
+  return url;
 }
 
 /**

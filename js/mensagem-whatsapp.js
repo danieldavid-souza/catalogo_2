@@ -1,13 +1,10 @@
 function gerarLinkWhatsApp(produto, numeroVendedor, idioma = 'pt', tags = []) {
-  const mensagem = `Olá Marli! Gostaria de saber mais sobre o produto "${produto.nome}" - ${produto.descricao}`;
-  const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagem)}&lang=${idioma}`;
+  const mensagemBase = `Olá Marli! Gostaria de saber mais sobre o produto "${produto.nome}" - ${produto.descricao}`;
+  const mensagemComTags = tags.length
+    ? `${mensagemBase}\n\nTags: ${tags.join(', ')}`
+    : mensagemBase;
 
-  // Adiciona tags como parâmetros extras (opcional)
-  if (tags.length > 0) {
-    const tagParams = tags.map(tag => `tag=${encodeURIComponent(tag)}`).join('&');
-    return `${url}&${tagParams}`;
-  }
-
+  const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagemComTags)}&lang=${idioma}`;
   return url;
 }
 
