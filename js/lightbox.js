@@ -1,4 +1,4 @@
-// Elementos do lightbox
+// 🎯 Elementos principais do lightbox
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const lightboxDesc = document.getElementById('lightbox-desc');
@@ -7,46 +7,60 @@ const contador = document.getElementById('contadorLightbox');
 const btnAnterior = document.getElementById('btnAnterior');
 const btnProximo = document.getElementById('btnProximo');
 
+// 🔁 Estado atual do lightbox
 let produtoAtualIndex = 0;
 let produtosLightbox = [];
 
-// Abre o lightbox com o produto clicado
+/**
+ * 🔓 Abre o lightbox com o produto clicado
+ * @param {Object} produto - Produto selecionado
+ */
 function abrirLightbox(produto) {
   produtosLightbox = window.todosProdutos;
   produtoAtualIndex = produtosLightbox.findIndex(p => p.nome === produto.nome);
   atualizarLightbox(produtosLightbox[produtoAtualIndex]);
 }
 
-// Atualiza imagem, descrição e contador
+/**
+ * 🔄 Atualiza imagem, descrição e contador do lightbox
+ * @param {Object} produto - Produto a ser exibido
+ */
 function atualizarLightbox(produto) {
   lightboxImg.src = produto.imagem;
+  lightboxImg.alt = produto.nome || 'Imagem do produto';
   lightboxDesc.textContent = produto.descricao;
   contador.textContent = `Imagem ${produtoAtualIndex + 1} de ${produtosLightbox.length}`;
   lightbox.classList.remove('hidden');
 }
 
-// Fecha o lightbox
+/**
+ * ❌ Fecha o lightbox
+ */
 function fecharLightbox() {
   lightbox.classList.add('hidden');
   produtoAtualIndex = null;
 }
 
-// Navegação por teclado
+// ⌨️ Navegação por teclado
 document.addEventListener('keydown', (e) => {
   if (lightbox.classList.contains('hidden')) return;
 
-  if (e.key === 'Escape') {
-    fecharLightbox();
-  } else if (e.key === 'ArrowRight') {
-    produtoAtualIndex = (produtoAtualIndex + 1) % produtosLightbox.length;
-    atualizarLightbox(produtosLightbox[produtoAtualIndex]);
-  } else if (e.key === 'ArrowLeft') {
-    produtoAtualIndex = (produtoAtualIndex - 1 + produtosLightbox.length) % produtosLightbox.length;
-    atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+  switch (e.key) {
+    case 'Escape':
+      fecharLightbox();
+      break;
+    case 'ArrowRight':
+      produtoAtualIndex = (produtoAtualIndex + 1) % produtosLightbox.length;
+      atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+      break;
+    case 'ArrowLeft':
+      produtoAtualIndex = (produtoAtualIndex - 1 + produtosLightbox.length) % produtosLightbox.length;
+      atualizarLightbox(produtosLightbox[produtoAtualIndex]);
+      break;
   }
 });
 
-// Botões visuais
+// 🖱️ Botões visuais de navegação
 btnAnterior.addEventListener('click', () => {
   produtoAtualIndex = (produtoAtualIndex - 1 + produtosLightbox.length) % produtosLightbox.length;
   atualizarLightbox(produtosLightbox[produtoAtualIndex]);
@@ -57,13 +71,13 @@ btnProximo.addEventListener('click', () => {
   atualizarLightbox(produtosLightbox[produtoAtualIndex]);
 });
 
-// Fechar ao clicar fora da imagem
+// 🖱️ Fecha ao clicar fora da imagem
 closeBtn.addEventListener('click', fecharLightbox);
 lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) fecharLightbox();
 });
 
-// Swipe para mobile
+// 📱 Swipe para mobile
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -76,6 +90,9 @@ lightbox.addEventListener('touchend', (e) => {
   handleSwipeGesture();
 });
 
+/**
+ * 📲 Detecta gesto de swipe e navega entre produtos
+ */
 function handleSwipeGesture() {
   if (lightbox.classList.contains('hidden')) return;
 
@@ -89,5 +106,3 @@ function handleSwipeGesture() {
     atualizarLightbox(produtosLightbox[produtoAtualIndex]);
   }
 }
-
-lightboxImg.alt = produto.nome || 'Imagem do produto';
