@@ -44,14 +44,14 @@ function renderizarCategorias(produtos) {
     'Convites Digitais': document.getElementById('convites-digitais-grid')
   };
 
-  // 🧹 Limpa conteúdo anterior
+  // 🧹 Limpa conteúdo anterior das seções
   Object.values(seções).forEach(secao => secao.innerHTML = '');
 
-  produtos.forEach(produto => {
+  produtos.forEach((produto, index) => {
     const card = document.createElement('div');
     card.className = 'card';
 
-    // 🔧 Configurações dinâmicas
+    // 🔧 Configurações dinâmicas para rastreamento e idioma
     const numeroVendedor = '5532991657472';
     const idioma = 'pt';
     const tags = ['cat-' + produto.categoria.toLowerCase().replace(/\s/g, '-')];
@@ -59,9 +59,9 @@ function renderizarCategorias(produtos) {
     // 🔗 Gera link com parâmetros personalizados
     const linkWhatsApp = gerarLinkWhatsApp(produto, numeroVendedor, idioma, tags);
 
-    // ✨ Conteúdo do card com Trusted Types
+    // ✨ Conteúdo do card com Trusted Types e otimização de imagem
     const htmlContent = `
-      <img src="${produto.imagem}" alt="${produto.nome}" loading="lazy">
+      <img src="${produto.imagem}" alt="${produto.nome}" width="300" height="300" loading="lazy" fetchpriority="${index === 0 ? 'high' : 'auto'}">
       <h3>${produto.nome}</h3>
       <p>${produto.descricao}</p>
       <p class="preco">R$ ${produto.preco.toFixed(2)}</p>
@@ -70,20 +70,19 @@ function renderizarCategorias(produtos) {
       </a>
     `;
 
+    // 🛡️ Sanitiza e injeta o HTML no card
     card.innerHTML = trustedHTMLPolicy.createHTML(htmlContent);
 
-    // 🖱️ Evento de clique no card abre o lightbox
+    // 🖱️ Evento de clique no card abre o lightbox com detalhes
     card.addEventListener('click', () => abrirLightbox(produto));
 
     // 🛑 Impede que o botão de WhatsApp propague o clique para o card
     const whatsappBtn = card.querySelector('.whatsapp-btn');
     whatsappBtn.addEventListener('click', (e) => {
-  e.stopPropagation(); // Impede o clique no card
-  e.preventDefault();  // Impede o redirecionamento interno
-
-  window.open(linkWhatsApp, '_blank'); // Abre em nova aba
-});
-
+      e.stopPropagation(); // Impede o clique no card
+      e.preventDefault();  // Impede o redirecionamento interno
+      window.open(linkWhatsApp, '_blank'); // Abre em nova aba
+    });
 
     // 📥 Adiciona o card à seção correspondente
     seções[produto.categoria]?.appendChild(card);
@@ -93,7 +92,7 @@ function renderizarCategorias(produtos) {
 /**
  * 🧮 Gera link do WhatsApp com parâmetros personalizados
  * @param {Object} produto - produto atual
- * @param {string} numero - número do vendedor
+ * @param {string} numeroVendedor - número do vendedor
  * @param {string} idioma - idioma da mensagem
  * @param {Array} tags - tags para rastreamento
  * @returns {string} - URL do WhatsApp
@@ -104,13 +103,12 @@ function gerarLinkWhatsApp(produto, numeroVendedor, idioma = 'pt', tags = []) {
     ? `${mensagemBase}\n\nTags: ${tags.join(', ')}`
     : mensagemBase;
 
-  const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagemComTags)}&lang=${idioma}`;
-  return url;
+  return `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagemComTags)}&lang=${idioma}`;
 }
 
 /**
  * 🧭 Popula o filtro de categorias dinamicamente
- * @param {Array} produtos
+ * @param {Array} produtos - lista de produtos
  */
 function popularFiltroCategorias(produtos) {
   const categorias = [...new Set(produtos.map(p => p.categoria))];
@@ -127,7 +125,7 @@ function popularFiltroCategorias(produtos) {
 
 /**
  * 🧪 Inicializa o filtro de categorias
- * @param {Array} produtos
+ * @param {Array} produtos - lista de produtos
  */
 function inicializarFiltros(produtos) {
   const filtro = document.getElementById('filtro-categorias');
