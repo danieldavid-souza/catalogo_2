@@ -1,0 +1,26 @@
+{
+  // ✅ Codificação padrão para todos os arquivos
+  "files.encoding": "utf8",
+
+  // ✅ Salvar arquivos automaticamente com UTF-8
+  "files.autoGuessEncoding": false,
+
+  // ✅ Fontes que suportam emojis no editor
+  "editor.fontFamily": "'Segoe UI Emoji', 'Noto Color Emoji', 'Apple Color Emoji', Consolas, 'Courier New', monospace",
+
+  // ✅ Tamanho e estilo da fonte
+  "editor.fontSize": 14,
+  "editor.fontLigatures": false,
+
+  // ✅ Barra de status sempre visível
+  "workbench.statusBar.visible": true,
+
+  // ✅ Minimapa ativado para navegação rápida
+  "editor.minimap.enabled": true,
+
+  // ✅ Mostrar espaços em branco nas bordas
+  "editor.renderWhitespace": "boundary",
+
+  // ✅ Preview desativado para abrir arquivos direto
+  "workbench.editor.enablePreview": false
+}
