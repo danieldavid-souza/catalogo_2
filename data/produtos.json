@@ -1,17 +1,17 @@
 [
-  {
-    "nome": "Caneca Branca",
-    "descricao": "Capacidade: 325ml Material: Porcelana. Tamanho Ideal para café, chá e outras bebidas. Personalize com frase, logo, foto!",
+{
+    "nome": "✨ Caneca Personalizada com Letra e Nome ✔ Capacidade: 325 ml",
+    "descricao": "Um charme delicado e cheio de estilo para o seu dia a dia!\nA estampa traz a inicial em destaque acompanhada do nome personalizado, com toques minimalistas em tons suaves, flores delicadas e detalhes modernos que deixam a peça elegante e única. 💝 Ideal para presentear alguém especial!",
     "categoria": "Sublimação",
-    "preco": 38.00,
-    "imagem": "imagens/sublimacao/caneca1.jpg"
+    "preco": 38,
+    "imagem": "imagens/sublimacao/caneca-alfabetoF.jpg"
   },
   {
-    "nome": "Caneca Jateada de Vidro",
-    "descricao": "Capacidade: 475ml. Ideal Para: Presente, uso diário ou personalização!",
+    "nome": "Caneca de Vidro Jateada Super Pai – Herói e Inspiração ✔ Capacidade: 475 ml",
+    "descricao": "Uma homenagem especial para quem é sinônimo de amor, força e inspiração!\nA estampa combina cores vibrantes em vermelho, azul e preto, com a frase emocionante:\n\"Pai, você é meu herói e minha inspiração. Te amo!\" 💝 Um presente único para celebrar o herói da sua vida com estilo e carinho!",
     "categoria": "Sublimação",
-    "preco": 50.0,
-    "imagem": "imagens/sublimacao/caneca2.jpg"
+    "preco": 50,
+    "imagem": "imagens/sublimacao/caneca-jateada.jpg"
   },
   {
     "nome": "caneca de alumínio",

@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function gerarLinkCompartilhamento({ plataforma, campanha, url }) {
     const emojiSet = emojisPorCampanha[campanha] || emojisPorCampanha.geral;
-    const titulo = `Confira o catálogo Lima Calixto! ${emojiSet.join(" ")}`;
+    const titulo = `Confira o catálogo Lima Calixto Personalizados! ${emojiSet.join(" ")}`;
     const mensagem = `${titulo}\n${url}`;
     const textoCodificado = encodeURIComponent(mensagem);
 

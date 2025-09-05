@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Produto</title>
+  <link rel="stylesheet" href="css/cadastro.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>📦 Cadastro de Produto</h1>
+    <form id="form-produto">
+      <label>Nome:</label>
+      <input type="text" id="nome" required />
+
+      <label>Descrição:</label>
+      <textarea id="descricao" rows="4" required></textarea>
+
+      <label>Categoria:</label>
+      <select id="categoria" required>
+        <option value="">Selecione</option>
+        <option value="Sublimação">Sublimação</option>
+        <option value="Personalizados">Personalizados</option>
+        <option value="Convites Digitais">Convites Digitais</option>
+      </select>
+
+      <label>Preço (R$):</label>
+      <input type="number" id="preco" step="0.01" required />
+
+      <label>Imagem (URL):</label>
+      <input type="text" id="imagem" placeholder="imagens/sublimacao/caneca1.jpg" required />
+      <div id="preview"></div>
+
+      <button type="submit">✅ Cadastrar Produto</button>
+
+       <button id="btn-exportar-json">📤 Exportar JSON</button>
+    </form>
+
+    <div id="mensagem-sucesso" class="sucesso hidden">Produto cadastrado com sucesso! 🎉</div>
+  </main>
+
+  <script src="js/cadastro.js"></script>
+</body>
+</html>

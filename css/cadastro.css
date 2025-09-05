@@ -1,0 +1,90 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #4a148c;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #4a148c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #6a1b9a;
+}
+
+#preview {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.sucesso {
+  margin-top: 20px;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+#btn-exportar-json {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#btn-exportar-json:hover {
+  background-color: #1b5e20;
+}
