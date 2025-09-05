@@ -168,64 +168,51 @@ section h2 {
   Estilo para o botão Compartilhar Catálgo INICIO
 ==================================================================*/
 
-.compartilhar-wrapper {
-  position: relative;
-  text-align: center;
-  margin: 20px auto;
-}
-
 #btn-compartilhar-catalogo {
   background-color: #0077cc;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
+  padding: 12px 20px;
+  border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#btn-compartilhar-catalogo:hover {
+  background-color: #005fa3;
 }
 
 .menu-compartilhar {
   position: absolute;
   top: 110%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(20px);
   background-color: #ffffff;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
+  padding: 15px;
   z-index: 1000;
-  width: 200px;
+  width: 220px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.menu-compartilhar button {
-  background-color: #f0f0f0;
-  border: none;
-  padding: 8px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
+.compartilhar-wrapper {
+  position: relative;
+  text-align: center;
+  margin: 30px auto;
 }
 
-.menu-compartilhar button:hover {
-  background-color: #e0e0e0;
-}
-
-.hidden {
-  display: none;
-}
-
-.fechar-menu {
-  background-color: #ffdddd;
-  color: #a00;
-  font-weight: bold;
-}
-
-.fechar-menu:hover {
-  background-color: #ffcccc;
+.menu-compartilhar.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
 }
 
 /*=================================================================
