@@ -131,6 +131,39 @@ section h2 {
   margin-bottom: 10px;
 }
 
+/*===================================
+ 🧠  Animação suave  dos Cards
+===================================*/
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+   box-shadow: 0 0 10px rgba(74, 20, 140, 0.2);
+   transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
 /* ============================================================
    🧾 Rodapé
 ============================================================ */

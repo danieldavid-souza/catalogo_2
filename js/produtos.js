@@ -50,6 +50,7 @@ function renderizarCategorias(produtos) {
   produtos.forEach((produto, index) => {
     const card = document.createElement('div');
     card.className = 'card';
+    card.style.animationDelay = `${index * 100}ms`; // 0.1s entre cada card
 
     // 🔧 Configurações dinâmicas para rastreamento e idioma
     const numeroVendedor = '5532991657472';
