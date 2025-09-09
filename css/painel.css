@@ -254,3 +254,321 @@ body.dark-mode .excluir-btn {
 body.dark-mode .excluir-btn:hover {
   background-color: #b00020;
 }
+
+.form-usuario {
+  max-width: 400px;
+  margin: 0 auto 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.form-usuario h2 {
+  text-align: center;
+  color: #4a148c;
+  margin-bottom: 20px;
+}
+
+.form-usuario label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-usuario input,
+.form-usuario select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.form-usuario button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4a148c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-usuario button:hover {
+  background-color: #6a1b9a;
+}
+
+/* 🧭 Barra lateral fixa */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: #4a148c;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+
+.sidebar .logo {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 16px;
+}
+
+.sidebar nav ul li a,
+.sidebar nav ul li button {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li button:hover {
+  background-color: #6a1b9a;
+}
+
+/* 🧱 Área principal */
+.dashboard {
+  margin-left: 240px;
+  padding: 40px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-content {
+  text-align: center;
+}
+
+.dashboard-resumo {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.resumo-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card-resumo {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  width: 220px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.card-resumo:hover {
+  transform: translateY(-4px);
+}
+
+.card-resumo h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #4a148c;
+}
+
+.card-resumo p {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.barra {
+  width: 100%;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.barra-preenchida {
+  height: 100%;
+  background-color: #4a148c;
+  width: 0%;
+  transition: width 0.6s ease;
+}
+
+.btn-dicas {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 16px;
+  font-size: 1rem;
+  background-color: #ffb300;
+  color: #121212;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-dicas:hover {
+  background-color: #ffa000;
+}
+
+.dicas-lista {
+  margin-top: 20px;
+  text-align: left;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dicas-lista h3 {
+  color: #4a148c;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dicas-lista ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dicas-lista li {
+  background-color: #fff8e1;
+  border-left: 4px solid #ffb300;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.card-dica.rotativa-card {
+  background-color: #fff8e1;
+  border-left: 6px solid #ffb300;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+  text-align: left;
+}
+
+.card-dica.rotativa-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-dica.rotativa-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.card-dica .dica-icone {
+  font-size: 1.6rem;
+  display: block;
+  margin-bottom: 10px;
+  color: #ffb300;
+}
+
+/* ✨ Transição suave */
+.fade {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+/* 📝 Formulário de dica */
+.form-usuario h3 {
+  text-align: center;
+  color: #4a148c;
+  margin-bottom: 20px;
+}
+
+.form-usuario label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-usuario input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.form-usuario button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4a148c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-usuario button:hover {
+  background-color: #6a1b9a;
+}
+
+.dashboard-header.centralizado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.titulo-painel {
+  font-size: 2rem;
+  color: #4a148c;
+  margin-bottom: 10px;
+}
+
+.saudacao {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.relogio {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4a148c;
+}

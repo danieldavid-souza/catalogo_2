@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Administrativo</title>
+  <link rel="stylesheet" href="css/painel.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <h2 class="logo">Lima Calixto</h2>
+    <nav>
+      <ul>
+        <li><a href="admin.html">📦 Produtos</a></li>
+        <li><a href="cadastro.html">➕ Cadastrar Produto</a></li>
+        <li><a href="usuarios.html">👥 Usuários</a></li>
+        <li><a href="editor.html">👀 Visualizar como Editor</a></li>
+        <li><button onclick="logout()">🚪 Sair</button></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="dashboard">
+    <header class="dashboard-header centralizado">
+        <h1 class="titulo-painel">🛠️ Painel Administrativo</h1>
+        <p class="saudacao" id="saudacao-admin">Olá, Daniel!</p>
+        <span id="relogio" class="relogio"></span>
+    </header>
+
+    <section class="dashboard-content">
+      <p class="info-painel">Bem-vindo, <strong id="usuario-nome"></strong>. Use o menu à esquerda para navegar pelas funções administrativas.</p>
+
+      <section class="dashboard-resumo">
+            <h2>📊 Resumo do Sistema</h2>
+            <div class="resumo-cards">
+                <div class="card-resumo">
+                <h3>📦 Produtos</h3>
+                <div class="barra">
+                    <div id="barra-produtos" class="barra-preenchida"></div>
+                </div>
+                <p><strong id="resumo-produtos">0</strong> cadastrados</p>
+                </div>
+
+                <div class="card-resumo">
+                <h3>👥 Usuários</h3>
+                <div class="barra">
+                    <div id="barra-usuarios" class="barra-preenchida"></div>
+                </div>
+                <p><strong id="resumo-usuarios">0</strong> ativos</p>
+                </div>
+
+                <div class="card-resumo">
+                <h3>🔐 Último login</h3>
+                <p><strong id="resumo-login">...</strong></p>
+                </div>
+            </div>
+        </section>
+
+      <section class="dashboard-dicas">
+            <h2>💡 Dica Administrativa</h2>
+
+            <div class="card-dica rotativa-card fade" id="dica-card">
+                <span class="dica-icone" id="dica-icone">🧾</span>
+                <p id="dica-texto">Use o botão <strong>Exportar JSON</strong> para fazer backup dos produtos.</p>
+            </div>
+
+            <button id="btn-ver-todas" class="btn-dicas">📋 Ver todas as dicas</button>
+
+            <div id="lista-dicas" class="dicas-lista" style="display:none;">
+                <h3>📚 Todas as Dicas</h3>
+                <ul id="dicas-completas"></ul>
+            </div>
+
+            <form id="form-nova-dica" class="form-usuario" style="margin-top:30px;">
+                <h3>➕ Adicionar Nova Dica</h3>
+                <label for="nova-dica-texto">Texto da dica:</label>
+                <input type="text" id="nova-dica-texto" required />
+
+                <label for="nova-dica-icone">Ícone (emoji):</label>
+                <input type="text" id="nova-dica-icone" placeholder="Ex: 💡" required />
+
+                <button type="submit">Salvar Dica</button>
+                <p id="mensagem-dica" class="info-painel"></p>
+            </form>
+        </section>
+    </section>
+  </main>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const logado = localStorage.getItem("usuarioLogado");
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+        const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+        const usuarioAtual = usuarios.find(u => u.usuario === logado);
+
+        if (!usuarioAtual || usuarioAtual.nivel !== "admin") {
+        document.body.innerHTML = `
+            <main style="text-align:center; padding:40px;">
+            <h2 style="color:#d32f2f;">⚠️ Acesso negado</h2>
+            <p>Você precisa fazer login como <strong>administrador</strong> para acessar esta página.</p>
+            <a href="login.html" style="color:#4a148c; font-weight:bold;">🔐 Ir para login</a>
+            </main>
+        `;
+        return;
+        }
+
+        document.getElementById("usuario-nome").textContent = logado;
+        document.getElementById("resumo-produtos").textContent = produtos.length;
+        document.getElementById("resumo-usuarios").textContent = usuarios.length;
+        document.getElementById("resumo-login").textContent = logado;
+
+        const maxProdutos = 100;
+        const maxUsuarios = 20;
+
+        document.getElementById("barra-produtos").style.width = `${Math.min((produtos.length / maxProdutos) * 100, 100)}%`;
+        document.getElementById("barra-usuarios").style.width = `${Math.min((usuarios.length / maxUsuarios) * 100, 100)}%`;
+
+        function atualizarRelogio() {
+        const agora = new Date();
+        const horas = agora.getHours().toString().padStart(2, '0');
+        const minutos = agora.getMinutes().toString().padStart(2, '0');
+        const segundos = agora.getSeconds().toString().padStart(2, '0');
+        const relogio = document.getElementById("relogio");
+        if (relogio) {
+            relogio.textContent = `${horas}:${minutos}:${segundos}`;
+        }
+        }
+
+        setInterval(atualizarRelogio, 1000);
+        atualizarRelogio();
+
+        // ✅ Saudação personalizada
+        function gerarSaudacao() {
+        const saudacaoEl = document.getElementById("saudacao-admin");
+        const agora = new Date();
+
+        const diasSemana = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+        const dia = diasSemana[agora.getDay()];
+
+        const horas = agora.getHours();
+        let periodo = "da manhã";
+        if (horas >= 12 && horas < 18) periodo = "da tarde";
+        else if (horas >= 18) periodo = "da noite";
+
+        saudacaoEl.textContent = `Olá, Daniel! Hoje é ${dia}, ${horas.toString().padStart(2, '0')}h ${periodo}.`;
+        }
+
+        gerarSaudacao();
+
+        // ✅ Dicas administrativas
+        const dicasPadrao = [
+        { texto: "Use o botão <strong>Exportar JSON</strong> para fazer backup dos produtos.", icone: "🧾" },
+        { texto: "Cadastre usuários com nível <strong>editor</strong> para limitar permissões.", icone: "🔐" },
+        { texto: "Verifique as imagens dos produtos para garantir boa apresentação.", icone: "🖼️" },
+        { texto: "Use o menu lateral para navegar entre funções administrativas.", icone: "🧭" },
+        { texto: "Mantenha o número de produtos atualizado para facilitar o controle.", icone: "📊" }
+        ];
+
+        const dicasSalvas = JSON.parse(localStorage.getItem("dicasAdmin")) || [];
+        const dicas = [...dicasPadrao, ...dicasSalvas];
+
+        let dicaAtual = 0;
+        function trocarDica() {
+        const dicaTexto = document.getElementById("dica-texto");
+        const dicaIcone = document.getElementById("dica-icone");
+        const card = document.getElementById("dica-card");
+
+        card.classList.remove("show");
+        setTimeout(() => {
+            dicaTexto.innerHTML = dicas[dicaAtual].texto;
+            dicaIcone.textContent = dicas[dicaAtual].icone;
+            card.classList.add("show");
+            dicaAtual = (dicaAtual + 1) % dicas.length;
+        }, 300);
+        }
+
+        setInterval(trocarDica, 15000);
+        trocarDica();
+
+        // 📋 Mostrar todas as dicas
+        document.getElementById("btn-ver-todas").addEventListener("click", () => {
+        const lista = document.getElementById("lista-dicas");
+        const ul = document.getElementById("dicas-completas");
+
+        const visivel = lista.style.display === "block";
+        lista.style.display = visivel ? "none" : "block";
+
+        if (!visivel && ul.innerHTML === "") {
+            dicas.forEach(d => {
+            const li = document.createElement("li");
+            li.innerHTML = `${d.icone} ${d.texto}`;
+            ul.appendChild(li);
+            });
+        }
+        });
+
+        // 📝 Cadastro de nova dica
+        document.getElementById("form-nova-dica").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const texto = document.getElementById("nova-dica-texto").value.trim();
+        const icone = document.getElementById("nova-dica-icone").value.trim();
+        const mensagem = document.getElementById("mensagem-dica");
+
+        if (!texto || !icone) {
+            mensagem.textContent = "❌ Preencha todos os campos.";
+            mensagem.style.color = "#d32f2f";
+            return;
+        }
+
+        const novaDica = { texto, icone };
+        dicas.push(novaDica);
+        dicasSalvas.push(novaDica);
+        localStorage.setItem("dicasAdmin", JSON.stringify(dicasSalvas));
+
+        mensagem.textContent = "✅ Dica adicionada com sucesso!";
+        mensagem.style.color = "#2e7d32";
+        e.target.reset();
+        });
+
+        // ✅ Logout
+        window.logout = function () {
+        localStorage.removeItem("usuarioLogado");
+        window.location.href = "login.html";
+        };
+    });
+</script>
+</body>
+</html>

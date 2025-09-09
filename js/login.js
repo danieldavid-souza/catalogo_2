@@ -13,7 +13,7 @@ document.getElementById("form-login").addEventListener("submit", (e) => {
     if (erro) erro.classList.add("hidden");
 
     if (valido.nivel === "admin") {
-      window.location.href = "admin.html";
+      window.location.href = "menu.html"; // ← leva para o hub administrativo
     } else if (valido.nivel === "editor") {
       window.location.href = "editor.html";
     } else {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerenciar Usuários</title>
+  <link rel="stylesheet" href="css/painel.css" />
+</head>
+<body>
+  <main class="container">
+    <div class="topo-painel">
+      <h1>👥 Gerenciar Usuários</h1>
+      <div class="acoes-painel">
+        <span id="relogio" class="relogio"></span>
+        <button onclick="logout()">🚪 Sair</button>
+      </div>
+    </div>
+
+    <p class="info-painel">Abaixo estão os usuários cadastrados no sistema.</p>
+
+    <form id="form-novo-usuario" class="form-usuario">
+        <h2>➕ Cadastrar Novo Usuário</h2>
+        <label for="novo-usuario">Usuário:</label>
+        <input type="text" id="novo-usuario" required />
+
+        <label for="nova-senha">Senha:</label>
+        <input type="password" id="nova-senha" required />
+
+        <label for="novo-nivel">Nível de acesso:</label>
+        <select id="novo-nivel" required>
+            <option value="">Selecione</option>
+            <option value="admin">Administrador</option>
+            <option value="editor">Editor</option>
+        </select>
+
+        <button type="submit">Cadastrar</button>
+        <p id="mensagem-usuario" class="info-painel"></p>
+    </form>
+    <div id="usuarios-lista"></div>
+  </main>
+
+  <script src="js/usuarios.js"></script>
+</body>
+</html>
