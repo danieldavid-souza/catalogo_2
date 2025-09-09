@@ -4,13 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel Administrativo</title>
-  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="css/painel.css" />
 </head>
 <body>
   <main class="container">
-    <h1>🛠️ Painel Administrativo</h1>
+    <div class="topo-painel">
+      <h1 id="titulo-admin">📦 Painel Administrativo</h1>
+      <div class="acoes-painel">
+        <span id="relogio" class="relogio"></span>
+        <button onclick="validarProdutos()">🧪 Validar Produtos</button>
+        <button id="btn-exportar-json">📤 Exportar JSON</button>
+        <input type="file" id="input-json" accept=".json" style="display:none;" />
+        <button onclick="document.getElementById('input-json').click()">📥 Importar JSON</button>
+        <button onclick="logout()">🚪 Sair</button>
+      </div>
+    </div>
+
+    <div class="filtros-painel">
+      <select id="filtro-categorias">
+        <option value="todos">Todas as categorias</option>
+      </select>
+
+      <input type="text" id="busca-nome" placeholder="🔍 Buscar por nome..." />
+    </div>
+
+    <p id="total-produtos" class="info-painel"></p>
     <div id="produtos-lista"></div>
-    <button id="btn-exportar-json">📤 Exportar JSON</button>
   </main>
 
   <script src="js/admin.js"></script>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Lima Calixto</title>
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <main class="login-container">
+    <h1>🔐 Acesso Restrito</h1>
+    <form id="form-login">
+      <label for="usuario">Usuário:</label>
+      <input type="text" id="usuario" required />
+
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" required />
+
+      <button type="submit">Entrar</button>
+      <p id="erro-login" class="erro hidden">Usuário ou senha inválidos ❌</p>
+    </form>
+  </main>
+
+  <script src="js/login.js"></script>
+</body>
+</html>

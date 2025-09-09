@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Usuário</title>
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <main class="login-container">
+    <h1>👤 Cadastro de Usuário</h1>
+    <form id="form-cadastro-usuario">
+      <label for="usuario">Usuário:</label>
+      <input type="text" id="usuario" required />
+
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" required />
+
+      <label for="nivel">Nível de acesso:</label>
+      <select id="nivel" required>
+        <option value="">Selecione</option>
+        <option value="admin">Administrador</option>
+        <option value="editor">Editor</option>
+      </select>
+
+      <button type="submit">Cadastrar</button>
+      <p id="mensagem-sucesso" class="sucesso hidden">✅ Usuário cadastrado com sucesso!</p>
+      <p id="mensagem-erro" class="erro hidden">❌ Usuário já existe ou dados inválidos.</p>
+    </form>
+  </main>
+
+  <script src="js/cadastro-usuario.js"></script>
+</body>
+</html>

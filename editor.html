@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel do Editor</title>
+  <link rel="stylesheet" href="css/painel.css" />
+</head>
+<body>
+  <main class="container">
+    <div class="topo-painel">
+      <h1 id="titulo-editor">👋 Bem-vindo, Editor</h1>
+      <div class="acoes-painel">
+        <span id="relogio" class="relogio"></span>
+        <button onclick="logout()">🚪 Sair</button>
+      </div>
+    </div>
+
+    <p class="info-painel">Você pode visualizar os produtos cadastrados, mas não pode editá-los.</p>
+    <p id="total-produtos" class="info-painel"></p>
+
+    <div class="filtros-painel">
+        <select id="filtro-categorias">
+            <option value="todos">Todas as categorias</option>
+        </select>
+
+        <input type="text" id="busca-nome" placeholder="🔍 Buscar por nome..." />
+    </div>
+
+    <div id="produtos-lista"></div>
+  </main>
+
+  <script src="js/editor.js"></script>
+</body>
+</html>
