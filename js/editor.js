@@ -114,3 +114,18 @@ function logout() {
   localStorage.removeItem("usuarioLogado");
   window.location.href = "login.html";
 }
+
+const btnTema = document.getElementById("toggle-tema");
+if (btnTema) {
+  btnTema.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const modoAtual = document.body.classList.contains("dark-mode") ? "dark" : "light";
+    localStorage.setItem("temaPreferido", modoAtual);
+  });
+
+  // Aplica tema salvo
+  const temaSalvo = localStorage.getItem("temaPreferido");
+  if (temaSalvo === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+}
