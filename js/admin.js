@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 🔐 Verifica login e nível de acesso
   const logado = localStorage.getItem("usuarioLogado");
   const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
   const usuarioAtual = usuarios.find(u => u.usuario === logado);
@@ -14,6 +15,54 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // 🎨 Aplica tema salvo ao carregar
+ const temaSalvo = localStorage.getItem("temaPreferido");
+if (temaSalvo === "dark") {
+  document.body.classList.add("dark-mode");
+}
+
+  // 🌓 Alternância de tema
+const btnTema = document.getElementById("toggle-tema");
+if (btnTema) {
+  btnTema.addEventListener("click", () => {
+    const modoEscuroAtivo = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("temaPreferido", modoEscuroAtivo ? "dark" : "light");
+  });
+}
+
+  // 🔙 Botão voltar ao menu
+  const btnVoltar = document.getElementById("btn-voltar-menu");
+  if (btnVoltar) {
+    btnVoltar.addEventListener("click", () => {
+      window.location.href = "menu.html";
+    });
+  }
+
+  // 🚪 Função de logout
+  const btnLogout = document.getElementById("btn-logout");
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      localStorage.removeItem("usuarioLogado");
+      window.location.href = "login.html";
+    });
+  }
+
+  // 🕒 Relógio em tempo real
+  function atualizarRelogio() {
+    const agora = new Date();
+    const horas = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    const segundos = agora.getSeconds().toString().padStart(2, '0');
+    const relogio = document.getElementById("relogio");
+    if (relogio) {
+      relogio.textContent = `${horas}:${minutos}:${segundos}`;
+    }
+  }
+
+  setInterval(atualizarRelogio, 1000);
+  atualizarRelogio();
+
+  // 🧭 Elementos principais
   const titulo = document.getElementById("titulo-admin");
   const lista = document.getElementById("produtos-lista");
   const total = document.getElementById("total-produtos");
@@ -26,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let todosProdutos = [];
 
+  // 📦 Carrega produtos
   function carregarProdutos() {
     const produtosLocal = JSON.parse(localStorage.getItem("produtos"));
     if (produtosLocal && produtosLocal.length) {
@@ -48,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // 🧩 Filtro de categorias
   function popularFiltroCategorias(produtos) {
     if (!filtro) return;
     const categorias = [...new Set(produtos.map(p => p.categoria))];
@@ -60,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 🔍 Aplica filtros
   function aplicarFiltros() {
     const categoriaSelecionada = filtro?.value || "todos";
     const termoBusca = busca?.value.toLowerCase() || "";
@@ -76,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (filtro) filtro.addEventListener("change", aplicarFiltros);
   if (busca) busca.addEventListener("input", aplicarFiltros);
 
+  // 🧱 Renderiza cards de produto
   function renderizarProdutos(listaProdutos) {
     lista.innerHTML = "";
 
@@ -144,12 +197,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 📤 Exportar JSON
   const btnExportar = document.getElementById("btn-exportar-json");
   if (btnExportar) {
     btnExportar.addEventListener("click", () => {
       const blob = new Blob([JSON.stringify(todosProdutos, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+            const a = document.createElement("a");
       a.href = url;
       a.download = "produtos.json";
       a.click();
@@ -157,6 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 📥 Importar JSON
   const inputImportar = document.getElementById("input-json");
   if (inputImportar) {
     inputImportar.addEventListener("change", (event) => {
@@ -183,41 +238,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function atualizarRelogio() {
-    const agora = new Date();
-    const horas = agora.getHours().toString().padStart(2, '0');
-    const minutos = agora.getMinutes().toString().padStart(2, '0');
-    const segundos = agora.getSeconds().toString().padStart(2, '0');
-    const relogio = document.getElementById("relogio");
-    if (relogio) {
-      relogio.textContent = `${horas}:${minutos}:${segundos}`;
-    }
-  }
-
-  setInterval(atualizarRelogio, 1000);
-  atualizarRelogio();
-
-  function logout() {
-    localStorage.removeItem("usuarioLogado");
-    window.location.href = "login.html";
-  }
-
-  window.logout = logout;
-
+  // 🚀 Inicia carregamento dos produtos
   carregarProdutos();
 });
 
-const btnTema = document.getElementById("toggle-tema");
-if (btnTema) {
-  btnTema.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const modoAtual = document.body.classList.contains("dark-mode") ? "dark" : "light";
-    localStorage.setItem("temaPreferido", modoAtual);
+const btnVoltar = document.getElementById("btn-voltar-menu");
+if (btnVoltar) {
+  btnVoltar.addEventListener("click", () => {
+    window.location.href = "menu.html";
   });
-
-  // Aplica tema salvo
-  const temaSalvo = localStorage.getItem("temaPreferido");
-  if (temaSalvo === "dark") {
-    document.body.classList.add("dark-mode");
-  }
 }

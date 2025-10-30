@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gerenciar Usuários</title>
-  <link rel="stylesheet" href="css/painel.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/componentes.css" />
+    <link rel="stylesheet" href="css/painel.css" />
+    <link rel="stylesheet" href="css/responsivo.css" />
 </head>
 <body>
   <main class="container">
@@ -12,6 +16,7 @@
       <h1>👥 Gerenciar Usuários</h1>
       <div class="acoes-painel">
         <span id="relogio" class="relogio"></span>
+        <button id="btn-voltar-menu">🔙 Voltar ao Menu</button>
         <button onclick="logout()">🚪 Sair</button>
       </div>
     </div>
@@ -33,12 +38,14 @@
             <option value="editor">Editor</option>
         </select>
 
+        
         <button type="submit">Cadastrar</button>
         <p id="mensagem-usuario" class="info-painel"></p>
     </form>
     <div id="usuarios-lista"></div>
   </main>
 
-  <script src="js/usuarios.js"></script>
+  <script src="js/usuarios.js" defer></script>
+  <script src="js/admin.js" defer></script>
 </body>
 </html>

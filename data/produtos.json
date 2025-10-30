@@ -1,28 +1,28 @@
 [
 {
-    "nome": "✨ Caneca Personalizada com Letra e Nome ✔ Capacidade: 325 ml",
-    "descricao": "Um charme delicado e cheio de estilo para o seu dia a dia!\nA estampa traz a inicial em destaque acompanhada do nome personalizado, com toques minimalistas em tons suaves, flores delicadas e detalhes modernos que deixam a peça elegante e única. 💝 Ideal para presentear alguém especial!",
+    "nome": "🎄 Caneca de Natal Personalizada – Modelo “Boas Festas” 🎅 Capacidade: 325 ml",
+    "descricao": "Celebre o espírito natalino com esta linda caneca personalizada de Natal, perfeita para presentear quem você ama ou deixar seu café ainda mais especial nesta época mágica! ☕✨🎁 Ideal para presentear familiares, amigos, colegas de trabalho ou clientes!",
     "categoria": "Sublimação",
     "preco": 38,
-    "imagem": "imagens/sublimacao/caneca-alfabetoF.jpg"
+    "imagem": "imagens/sublimacao/caneca-natal.jpg"
   },
   {
-    "nome": "Caneca de Vidro Jateada Super Pai – Herói e Inspiração ✔ Capacidade: 475 ml",
-    "descricao": "Uma homenagem especial para quem é sinônimo de amor, força e inspiração!\nA estampa combina cores vibrantes em vermelho, azul e preto, com a frase emocionante:\n\"Pai, você é meu herói e minha inspiração. Te amo!\" 💝 Um presente único para celebrar o herói da sua vida com estilo e carinho!",
+    "nome": "🎅 Caneca Jateada Personalizada – Feliz Natal Amigo 🎄 Capacidade: 475 ml",
+    "descricao": "Presenteie com carinho e originalidade neste Natal! A caneca jateada personalizada “Feliz Natal Amigo” é a escolha perfeita para demonstrar afeto e celebrar a amizade nesta época tão especial. 💖👉 Transforme a lembrança de Natal em algo único e especial com esta linda caneca personalizada!",
     "categoria": "Sublimação",
     "preco": 50,
     "imagem": "imagens/sublimacao/caneca-jateada.jpg"
   },
   {
-    "nome": "caneca de alumínio",
-    "descricao": "Capacidade 600ml. Perfeita para o seu dia a dia ou para presentear. O brilho do alumínio proporciona um visual moderno e elegante. Perfeita para personalizar com o escudo do seu time, frases ou nome!",
+    "nome": "🏢 Caneca de Alumínio Personalizada – Administração ⚙️ Capacidade 600ml.",
+    "descricao": " Perfeita para estudantes e profissionais da área, esta caneca de alumínio personalizada de Administração une estilo, durabilidade e praticidade em um só produto! Ideal para presentear formandos, colegas de curso ou decorar o ambiente de trabalho. ✨",
     "categoria": "Sublimação",
     "preco": 35.00,
     "imagem": "imagens/sublimacao/caneca3.jpg"
   },
   {
-    "nome": "Caneca de Polímero",
-    "descricao": "Com 325ml de capacidade, é perfeita para o seu dia a dia. Feita para acompanhar seus momentos favoritos. Ideal para personalizar com fotos, frases ou nome!",
+    "nome": "🍼 Caneca Personalizada Infantil – Tema Safari Baby 🦒🐧🌈 Polímero Com 325ml de capacidade",
+    "descricao": "Encante com essa linda caneca personalizada infantil, perfeita para presentear bebês, crianças e mamães! O design delicado com bichinhos do safári e tons suaves transmite carinho e alegria em cada detalhe. 💖 🎁 Um presente cheio de amor, perfeito para eternizar momentos especiais!",
     "categoria": "Sublimação",
     "preco": 35.00,
     "imagem": "imagens/sublimacao/caneca4.jpg"
@@ -35,8 +35,8 @@
     "imagem": "imagens/sublimacao/squeeze.jpg"
   },
   {
-    "nome": "Azulejo Sublimático",
-    "descricao": "Tamanho 20x20cm. Perfeito para Presente! Este azulejo é um presente especial e pode ser personalizado com nomes, datas especiais ou frases. Ideal para decorar casa ou escritório, com a técnica de sublimação que garante cores vibrantes!",
+    "nome": "🎄 Azulejo Personalizado de Natal – “Um Feliz Natal Iluminado por Deus” ✨Tamanho 20x20cm.",
+    "descricao": " Celebre o espírito natalino com este azulejo de cerâmica personalizado, uma peça encantadora para decorar e eternizar momentos especiais em família! 💖",
     "categoria": "Sublimação",
     "preco": 40.00,
     "imagem": "imagens/sublimacao/azulejo.jpg"
@@ -84,18 +84,18 @@
     "imagem": "imagens/sublimacao/camiseta2.jpg"
   },
   {
-    "nome": "Chaveiro Acrílico",
-    "descricao": "Personalizado com nome, frase ou foto frente e verso! ",
+    "nome": "🔑 Chaveiro Acrílico Personalizado – “Existe Amor” ❤️",
+    "descricao": "Leve o amor sempre com você com este chaveiro acrílico personalizado, perfeito para presentear quem você ama ou eternizar um momento especial. 💕 ✨ Demonstre carinho com estilo — personalize o seu chaveiro e leve suas melhores lembranças para onde for!",
     "categoria": "Personalizados",
     "preco": 5.00,
     "imagem": "imagens/personalizados/chaveiro.jpg"
   },
   {
-    "nome": "Plaquinha Acrílica",
-    "descricao": "Personalize com QR CODE: PIX, Intagram! ",
+    "nome": "💳 Placa de Acrílico Personalizada – Pagamento via PIX ✨ Tamanho 15x10cm",
+    "descricao": "Facilite os pagamentos no seu negócio com estilo e praticidade! A placa de acrílico personalizada PIX é perfeita para expor sua chave PIX de forma moderna, profissional e durável no balcão da sua loja, salão, escritório ou evento. 🙌 ",
     "categoria": "Personalizados",
     "preco": 15.00,
-    "imagem": "imagens/personalizados/plaquinha.jpg"
+    "imagem": "imagens/personalizados/Placa de Acrílico.jpg"
   },
   {
     "nome": "Calendário de Mesa",

@@ -1,0 +1,300 @@
+/* 🌙 Tema escuro geral */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* 🔲 Container escuro */
+body.dark-mode .container {
+  background-color: #1e1e1e;
+  box-shadow: none;
+}
+
+/* 🎯 Títulos e textos */
+body.dark-mode .topo-painel h1,
+body.dark-mode .titulo-painel,
+body.dark-mode .relogio,
+body.dark-mode .info-painel,
+body.dark-mode #total-produtos,
+body.dark-mode .saudacao,
+body.dark-mode .dashboard-header h1 {
+  color: #bb86fc;
+}
+
+/* 🎛️ Botões */
+body.dark-mode .acoes-painel button {
+  background-color: #bb86fc;
+  color: #121212;
+}
+
+body.dark-mode .acoes-painel button:hover {
+  background-color: #985eff;
+}
+
+/* 🧱 Cards de produto */
+body.dark-mode .produto-card {
+  background-color: #2c2c2c;
+  border-color: #444;
+}
+
+body.dark-mode .produto-card input,
+body.dark-mode .produto-card textarea,
+body.dark-mode .produto-card select {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+/* ✅ Botões de ação nos cards */
+body.dark-mode .salvar-btn {
+  background-color: #03dac6;
+  color: #121212;
+}
+
+body.dark-mode .salvar-btn:hover {
+  background-color: #00bfa5;
+}
+
+body.dark-mode .excluir-btn {
+  background-color: #cf6679;
+  color: #121212;
+}
+
+body.dark-mode .excluir-btn:hover {
+  background-color: #b00020;
+}
+
+/* 📝 Formulário de usuário */
+body.dark-mode .form-usuario {
+  background-color: #2c2c2c;
+  box-shadow: none;
+}
+
+body.dark-mode .form-usuario label {
+  color: #e0e0e0;
+}
+
+body.dark-mode .form-usuario input,
+body.dark-mode .form-usuario select {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+body.dark-mode .form-usuario button {
+  background-color: #bb86fc;
+  color: #121212;
+}
+
+body.dark-mode .form-usuario button:hover {
+  background-color: #985eff;
+}
+
+/* 💡 Dicas rotativas */
+body.dark-mode .card-dica.rotativa-card {
+  background-color: #333;
+  border-left: 6px solid #bb86fc;
+}
+
+body.dark-mode .card-dica .dica-icone {
+  color: #bb86fc;
+}
+
+body.dark-mode .card-dica.rotativa-card p {
+  color: #e0e0e0;
+}
+
+/* 📋 Lista de dicas */
+body.dark-mode .dicas-lista li {
+  background-color: #333;
+  border-left: 4px solid #bb86fc;
+  color: #e0e0e0;
+}
+
+body.dark-mode .dicas-lista button {
+  color: #bb86fc;
+}
+
+body.dark-mode .dicas-lista button:hover {
+  color: #985eff;
+}
+
+/* 📋 Botão ver todas */
+body.dark-mode .btn-dicas {
+  background-color: #bb86fc;
+  color: #121212;
+}
+
+body.dark-mode .btn-dicas:hover {
+  background-color: #985eff;
+}
+
+body.dark-mode .dashboard-resumo h2,
+body.dark-mode .dashboard-dicas h2 {
+  color: #bb86fc;
+}
+
+/* ===================================================
+🌙 TEMA ESCURO
+=================================================== */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* 🔲 Container escuro */
+body.dark-mode .container {
+  background-color: #1e1e1e;
+  box-shadow: none;
+}
+
+/* 🎯 Títulos e textos principais */
+body.dark-mode .topo-painel h1,
+body.dark-mode .titulo-painel,
+body.dark-mode .relogio,
+body.dark-mode .info-painel,
+body.dark-mode #total-produtos,
+body.dark-mode .saudacao,
+body.dark-mode .dashboard-header h1 {
+  color: #bb86fc;
+}
+
+/* ✅ Títulos das seções de resumo e dicas */
+body.dark-mode .dashboard-resumo h2,
+body.dark-mode .dashboard-dicas h2 {
+  color: #bb86fc;
+}
+
+/* 🎛️ Botões */
+body.dark-mode .acoes-painel button {
+  background-color: #bb86fc;
+  color: #121212;
+}
+
+body.dark-mode .acoes-painel button:hover {
+  background-color: #985eff;
+}
+
+/* 🧱 Cards de produto */
+body.dark-mode .produto-card {
+  background-color: #2c2c2c;
+  border-color: #444;
+}
+
+body.dark-mode .produto-card input,
+body.dark-mode .produto-card textarea,
+body.dark-mode .produto-card select {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+/* ✅ Botões de ação nos cards */
+body.dark-mode .salvar-btn {
+  background-color: #03dac6;
+  color: #121212;
+}
+
+body.dark-mode .salvar-btn:hover {
+  background-color: #00bfa5;
+}
+
+body.dark-mode .excluir-btn {
+  background-color: #cf6679;
+  color: #121212;
+}
+
+body.dark-mode .excluir-btn:hover {
+  background-color: #b00020;
+}
+
+/* 📝 Formulário de usuário */
+body.dark-mode .form-usuario {
+  background-color: #2c2c2c;
+  box-shadow: none;
+}
+
+body.dark-mode .form-usuario label {
+  color: #e0e0e0;
+}
+
+body.dark-mode .form-usuario input,
+body.dark-mode .form-usuario select {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+body.dark-mode .form-usuario button {
+  background-color: #bb86fc;
+  color: #121212;
+}
+
+body.dark-mode .form-usuario button:hover {
+  background-color: #985eff;
+}
+
+/* 💡 Dicas rotativas */
+body.dark-mode .card-dica.rotativa-card {
+  background-color: #333;
+  border-left: 6px solid #bb86fc;
+}
+
+body.dark-mode .card-dica .dica-icone {
+  color: #bb86fc;
+}
+
+body.dark-mode .card-dica.rotativa-card p {
+  color: #e0e0e0;
+}
+
+/* 📋 Lista de dicas */
+body.dark-mode .dicas-lista li {
+  background-color: #333;
+  border-left: 4px solid #bb86fc;
+  color: #e0e0e0;
+}
+
+body.dark-mode .dicas-lista button {
+  color: #bb86fc;
+}
+
+body.dark-mode .dicas-lista button:hover {
+  color: #985eff;
+}
+
+/* 📋 Botão ver todas */
+body.dark-mode .btn-dicas {
+  background-color: #bb86fc;
+  color: #121212;
+}
+
+body.dark-mode .btn-dicas:hover {
+  background-color: #985eff;
+}
+
+/* 📊 Cards de resumo */
+body.dark-mode .card-resumo {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+}
+
+body.dark-mode .card-resumo h3 {
+  color: #bb86fc;
+}
+
+body.dark-mode .card-resumo p {
+  color: #e0e0e0;
+}
+
+body.dark-mode .barra {
+  background-color: #444;
+}
+
+body.dark-mode .barra-preenchida {
+  background-color: #bb86fc;
+}
+
+body {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}

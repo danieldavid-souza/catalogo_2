@@ -26,6 +26,7 @@
 
   <div class="compartilhar-wrapper">
     <button id="btn-compartilhar-catalogo">📤 Compartilhar Catálogo</button>
+    <button id="btn-voltar-menu" style="display:none;">🔙 Voltar ao Menu Principal</button>
     <div id="menu-compartilhar-catalogo" class="menu-compartilhar">
       <button data-campanha="presentes" data-plataforma="whatsapp">🎁 WhatsApp</button>
       <button data-campanha="infantil" data-plataforma="telegram">🧸 Telegram</button>
@@ -81,5 +82,24 @@
   <script src="js/lightbox.js" defer></script>
   <script src="js/filtros.js" defer></script>
   <script src="js/compartilhar-catalago.js" defer></script>
+  <script src="js/admin.js" defer></script>
+
+<script>
+    const btnVoltar = document.getElementById("btn-voltar-menu");
+
+  // Detecta ambiente local: localhost, 127.0.0.1 ou acesso direto via file://
+  const isLocal = (
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1" ||
+    location.protocol === "file:"
+  );
+
+  if (isLocal && btnVoltar) {
+    btnVoltar.style.display = "inline-block";
+    btnVoltar.addEventListener("click", () => {
+      window.location.href = "menu.html";
+    });
+  }
+</script>
 </body>
 </html>

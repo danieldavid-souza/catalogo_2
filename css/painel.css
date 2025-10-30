@@ -1,4 +1,6 @@
-/* 🌐 Reset básico */
+/* ===================================================
+🌐 RESET E BASE
+=================================================== */
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f4f4f4;
@@ -6,7 +8,9 @@ body {
   padding: 0;
 }
 
-/* 📦 Container principal */
+/* ===================================================
+📦 CONTAINER PRINCIPAL
+=================================================== */
 .container {
   max-width: 960px;
   margin: 40px auto;
@@ -16,7 +20,9 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* 🧭 Topo do painel */
+/* ===================================================
+🧭 TOPO DO PAINEL
+=================================================== */
 .topo-painel {
   display: flex;
   flex-direction: column;
@@ -32,14 +38,18 @@ body {
   color: #4a148c;
 }
 
-/* 🕒 Relógio */
+/* ===================================================
+🕒 RELÓGIO
+=================================================== */
 .relogio {
   font-weight: bold;
   font-size: 1rem;
   color: #4a148c;
 }
 
-/* 🎛️ Botões de ação */
+/* ===================================================
+🎛️ BOTÕES DE AÇÃO
+=================================================== */
 .acoes-painel {
   display: flex;
   flex-wrap: wrap;
@@ -74,7 +84,9 @@ body {
   display: none;
 }
 
-/* ℹ️ Mensagens e totalizador */
+/* ===================================================
+ℹ️ MENSAGENS E TOTALIZADOR
+=================================================== */
 .info-painel,
 #total-produtos {
   text-align: center;
@@ -83,7 +95,9 @@ body {
   margin-bottom: 20px;
 }
 
-/* 🔍 Filtros */
+/* ===================================================
+🔍 FILTROS
+=================================================== */
 .filtros-painel {
   display: flex;
   justify-content: center;
@@ -101,7 +115,9 @@ body {
   background-color: #fff;
 }
 
-/* 🧱 Card de produto */
+/* ===================================================
+🧱 CARD DE PRODUTO
+=================================================== */
 .produto-card {
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -126,7 +142,9 @@ body {
   margin-right: auto;
 }
 
-/* ✏️ Campos de edição */
+/* ===================================================
+✏️ CAMPOS DE EDIÇÃO
+=================================================== */
 .produto-card input,
 .produto-card textarea,
 .produto-card select {
@@ -140,7 +158,9 @@ body {
   background-color: #fff;
 }
 
-/* 🧮 Botões de salvar/excluir */
+/* ===================================================
+🧮 BOTÕES DE SALVAR/EXCLUIR
+=================================================== */
 .produto-card button {
   margin-right: 10px;
   padding: 8px 12px;
@@ -168,7 +188,9 @@ body {
   background-color: #b71c1c;
 }
 
-/* 📱 Responsividade */
+/* ===================================================
+📱 RESPONSIVIDADE
+=================================================== */
 @media (max-width: 600px) {
   .topo-painel {
     flex-direction: column;
@@ -197,7 +219,9 @@ body {
   }
 }
 
-/* 🌙 Tema escuro */
+/* ===================================================
+🌙 TEMA ESCURO
+=================================================== */
 body.dark-mode {
   background-color: #121212;
   color: #e0e0e0;
@@ -255,6 +279,9 @@ body.dark-mode .excluir-btn:hover {
   background-color: #b00020;
 }
 
+/* ===================================================
+📝 FORMULÁRIO DE USUÁRIO
+=================================================== */
 .form-usuario {
   max-width: 400px;
   margin: 0 auto 30px;
@@ -303,7 +330,199 @@ body.dark-mode .excluir-btn:hover {
   background-color: #6a1b9a;
 }
 
-/* 🧭 Barra lateral fixa */
+/* Até aqui que mandei */
+
+/* ===================================================
+🌐 RESET E BASE
+=================================================== */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===================================================
+📦 CONTAINER PRINCIPAL
+=================================================== */
+.container {
+  max-width: 960px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================================================
+🧭 TOPO DO PAINEL
+=================================================== */
+.topo-painel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.topo-painel h1,
+.titulo-painel {
+  margin: 0;
+  font-size: 2rem;
+  color: #4a148c;
+}
+
+.saudacao {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.relogio {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4a148c;
+}
+
+/* ===================================================
+🎛️ BOTÕES DE AÇÃO
+=================================================== */
+.acoes-painel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.acoes-painel button {
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #4a148c;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.acoes-painel button:hover {
+  background-color: #6a1b9a;
+}
+
+#btn-exportar-json {
+  background-color: #2e7d32;
+}
+
+#btn-exportar-json:hover {
+  background-color: #1b5e20;
+}
+
+#input-json {
+  display: none;
+}
+
+/* ===================================================
+ℹ️ MENSAGENS E TOTALIZADOR
+=================================================== */
+.info-painel,
+#total-produtos {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ===================================================
+🔍 FILTROS
+=================================================== */
+.filtros-painel {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filtros-painel select,
+.filtros-painel input {
+  padding: 8px;
+  font-size: 0.95rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+/* ===================================================
+🧱 CARD DE PRODUTO
+=================================================== */
+.produto-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 24px;
+  background-color: #fafafa;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produto-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.produto-card img {
+  width: 180px;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.produto-card input,
+.produto-card textarea,
+.produto-card select {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fff;
+}
+
+.produto-card button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.salvar-btn {
+  background-color: #4a148c;
+  color: white;
+}
+
+.salvar-btn:hover {
+  background-color: #6a1b9a;
+}
+
+.excluir-btn {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.excluir-btn:hover {
+  background-color: #b71c1c;
+}
+
+/* ===================================================
+🧭 BARRA LATERAL FIXA
+=================================================== */
 .sidebar {
   position: fixed;
   top: 0;
@@ -353,7 +572,9 @@ body.dark-mode .excluir-btn:hover {
   background-color: #6a1b9a;
 }
 
-/* 🧱 Área principal */
+/* ===================================================
+📊 ÁREA PRINCIPAL DO DASHBOARD
+=================================================== */
 .dashboard {
   margin-left: 240px;
   padding: 40px;
@@ -364,6 +585,11 @@ body.dark-mode .excluir-btn:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+}
+
+.dashboard-header.centralizado {
+  flex-direction: column;
+  text-align: center;
 }
 
 .dashboard-content {
@@ -422,52 +648,9 @@ body.dark-mode .excluir-btn:hover {
   transition: width 0.6s ease;
 }
 
-.btn-dicas {
-  margin: 20px auto;
-  display: block;
-  padding: 10px 16px;
-  font-size: 1rem;
-  background-color: #ffb300;
-  color: #121212;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-dicas:hover {
-  background-color: #ffa000;
-}
-
-.dicas-lista {
-  margin-top: 20px;
-  text-align: left;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.dicas-lista h3 {
-  color: #4a148c;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.dicas-lista ul {
-  list-style: none;
-  padding: 0;
-}
-
-.dicas-lista li {
-  background-color: #fff8e1;
-  border-left: 4px solid #ffb300;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  color: #444;
-}
-
+/* ===================================================
+💡 DICAS ADMINISTRATIVAS
+=================================================== */
 .card-dica.rotativa-card {
   background-color: #fff8e1;
   border-left: 6px solid #ffb300;
@@ -497,7 +680,71 @@ body.dark-mode .excluir-btn:hover {
   color: #ffb300;
 }
 
-/* ✨ Transição suave */
+.btn-dicas {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 16px;
+  font-size: 1rem;
+  background-color: #ffb300;
+  color: #121212;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-dicas:hover {
+  background-color: #ffa000;
+}
+
+/* 📋 Lista de dicas */
+.dicas-lista {
+  margin-top: 20px;
+  text-align: left;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dicas-lista h3 {
+  color: #4a148c;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dicas-lista ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dicas-lista li {
+  background-color: #fff8e1;
+  border-left: 4px solid #ffb300;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #444;
+  position: relative;
+}
+
+.dicas-lista button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #4a148c;
+  margin-left: 6px;
+}
+
+.dicas-lista button:hover {
+  color: #6a1b9a;
+}
+
+/* ✨ Transição suave para dica rotativa */
 .fade {
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
@@ -507,68 +754,3 @@ body.dark-mode .excluir-btn:hover {
   opacity: 1;
 }
 
-/* 📝 Formulário de dica */
-.form-usuario h3 {
-  text-align: center;
-  color: #4a148c;
-  margin-bottom: 20px;
-}
-
-.form-usuario label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
-  color: #333;
-}
-
-.form-usuario input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-.form-usuario button {
-  width: 100%;
-  padding: 12px;
-  background-color: #4a148c;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.form-usuario button:hover {
-  background-color: #6a1b9a;
-}
-
-.dashboard-header.centralizado {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.titulo-painel {
-  font-size: 2rem;
-  color: #4a148c;
-  margin-bottom: 10px;
-}
-
-.saudacao {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 6px;
-}
-
-.relogio {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #4a148c;
-}

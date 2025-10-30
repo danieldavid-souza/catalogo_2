@@ -1,0 +1,28 @@
+/* 📱 Responsividade */
+@media (max-width: 600px) {
+  .topo-painel,
+  .acoes-painel,
+  .filtros-painel,
+  .filtros-painel select,
+  .filtros-painel input {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .acoes-painel button {
+    width: 100%;
+  }
+
+  .dashboard {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+}

@@ -1,0 +1,82 @@
+/* 📊 Resumo do sistema */
+.dashboard-resumo {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.resumo-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card-resumo {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  width: 220px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.card-resumo:hover {
+  transform: translateY(-4px);
+}
+
+.card-resumo h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #4a148c;
+}
+
+.card-resumo p {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* 📶 Barra de progresso */
+.barra {
+  width: 100%;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.barra-preenchida {
+  height: 100%;
+  background-color: #4a148c;
+  width: 0%;
+  transition: width 0.6s ease;
+}
+
+/* 🌙 Tema escuro para resumo */
+body.dark-mode .card-resumo {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+}
+
+body.dark-mode .card-resumo h3 {
+  color: #bb86fc;
+}
+
+body.dark-mode .card-resumo p {
+  color: #e0e0e0;
+}
+
+body.dark-mode .barra {
+  background-color: #444;
+}
+
+body.dark-mode .barra-preenchida {
+  background-color: #bb86fc;
+}
+
+.dashboard-resumo h2 {
+  font-size: 1.4rem;
+  color: #4a148c;
+  margin-bottom: 20px;
+  text-align: center;
+}

@@ -4,13 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Administrativo</title>
-  <link rel="stylesheet" href="css/painel.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/componentes.css" />
+    <link rel="stylesheet" href="css/dicas.css" />
+    <link rel="stylesheet" href="css/resumo.css" />
+    <link rel="stylesheet" href="css/tema.css" />
+    <link rel="stylesheet" href="css/responsivo.css" />
 </head>
 <body>
   <aside class="sidebar">
     <h2 class="logo">Lima Calixto</h2>
     <nav>
       <ul>
+        <li><a href="index.html">📦 Catálogo Online</a></li>
         <li><a href="admin.html">📦 Produtos</a></li>
         <li><a href="cadastro.html">➕ Cadastrar Produto</a></li>
         <li><a href="usuarios.html">👥 Usuários</a></li>
@@ -87,143 +94,183 @@
   </main>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const logado = localStorage.getItem("usuarioLogado");
-        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-        const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-        const usuarioAtual = usuarios.find(u => u.usuario === logado);
+        document.addEventListener("DOMContentLoaded", () => {
+            const logado = localStorage.getItem("usuarioLogado");
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+            const usuarioAtual = usuarios.find(u => u.usuario === logado);
 
-        if (!usuarioAtual || usuarioAtual.nivel !== "admin") {
-        document.body.innerHTML = `
-            <main style="text-align:center; padding:40px;">
-            <h2 style="color:#d32f2f;">⚠️ Acesso negado</h2>
-            <p>Você precisa fazer login como <strong>administrador</strong> para acessar esta página.</p>
-            <a href="login.html" style="color:#4a148c; font-weight:bold;">🔐 Ir para login</a>
-            </main>
-        `;
-        return;
-        }
-
-        document.getElementById("usuario-nome").textContent = logado;
-        document.getElementById("resumo-produtos").textContent = produtos.length;
-        document.getElementById("resumo-usuarios").textContent = usuarios.length;
-        document.getElementById("resumo-login").textContent = logado;
-
-        const maxProdutos = 100;
-        const maxUsuarios = 20;
-
-        document.getElementById("barra-produtos").style.width = `${Math.min((produtos.length / maxProdutos) * 100, 100)}%`;
-        document.getElementById("barra-usuarios").style.width = `${Math.min((usuarios.length / maxUsuarios) * 100, 100)}%`;
-
-        function atualizarRelogio() {
-        const agora = new Date();
-        const horas = agora.getHours().toString().padStart(2, '0');
-        const minutos = agora.getMinutes().toString().padStart(2, '0');
-        const segundos = agora.getSeconds().toString().padStart(2, '0');
-        const relogio = document.getElementById("relogio");
-        if (relogio) {
-            relogio.textContent = `${horas}:${minutos}:${segundos}`;
-        }
-        }
-
-        setInterval(atualizarRelogio, 1000);
-        atualizarRelogio();
-
-        // ✅ Saudação personalizada
-        function gerarSaudacao() {
-        const saudacaoEl = document.getElementById("saudacao-admin");
-        const agora = new Date();
-
-        const diasSemana = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
-        const dia = diasSemana[agora.getDay()];
-
-        const horas = agora.getHours();
-        let periodo = "da manhã";
-        if (horas >= 12 && horas < 18) periodo = "da tarde";
-        else if (horas >= 18) periodo = "da noite";
-
-        saudacaoEl.textContent = `Olá, Daniel! Hoje é ${dia}, ${horas.toString().padStart(2, '0')}h ${periodo}.`;
-        }
-
-        gerarSaudacao();
-
-        // ✅ Dicas administrativas
-        const dicasPadrao = [
-        { texto: "Use o botão <strong>Exportar JSON</strong> para fazer backup dos produtos.", icone: "🧾" },
-        { texto: "Cadastre usuários com nível <strong>editor</strong> para limitar permissões.", icone: "🔐" },
-        { texto: "Verifique as imagens dos produtos para garantir boa apresentação.", icone: "🖼️" },
-        { texto: "Use o menu lateral para navegar entre funções administrativas.", icone: "🧭" },
-        { texto: "Mantenha o número de produtos atualizado para facilitar o controle.", icone: "📊" }
-        ];
-
-        const dicasSalvas = JSON.parse(localStorage.getItem("dicasAdmin")) || [];
-        const dicas = [...dicasPadrao, ...dicasSalvas];
-
-        let dicaAtual = 0;
-        function trocarDica() {
-        const dicaTexto = document.getElementById("dica-texto");
-        const dicaIcone = document.getElementById("dica-icone");
-        const card = document.getElementById("dica-card");
-
-        card.classList.remove("show");
-        setTimeout(() => {
-            dicaTexto.innerHTML = dicas[dicaAtual].texto;
-            dicaIcone.textContent = dicas[dicaAtual].icone;
-            card.classList.add("show");
-            dicaAtual = (dicaAtual + 1) % dicas.length;
-        }, 300);
-        }
-
-        setInterval(trocarDica, 15000);
-        trocarDica();
-
-        // 📋 Mostrar todas as dicas
-        document.getElementById("btn-ver-todas").addEventListener("click", () => {
-        const lista = document.getElementById("lista-dicas");
-        const ul = document.getElementById("dicas-completas");
-
-        const visivel = lista.style.display === "block";
-        lista.style.display = visivel ? "none" : "block";
-
-        if (!visivel && ul.innerHTML === "") {
-            dicas.forEach(d => {
-            const li = document.createElement("li");
-            li.innerHTML = `${d.icone} ${d.texto}`;
-            ul.appendChild(li);
-            });
-        }
-        });
-
-        // 📝 Cadastro de nova dica
-        document.getElementById("form-nova-dica").addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const texto = document.getElementById("nova-dica-texto").value.trim();
-        const icone = document.getElementById("nova-dica-icone").value.trim();
-        const mensagem = document.getElementById("mensagem-dica");
-
-        if (!texto || !icone) {
-            mensagem.textContent = "❌ Preencha todos os campos.";
-            mensagem.style.color = "#d32f2f";
+            if (!usuarioAtual || usuarioAtual.nivel !== "admin") {
+            document.body.innerHTML = `
+                <main style="text-align:center; padding:40px;">
+                <h2 style="color:#d32f2f;">⚠️ Acesso negado</h2>
+                <p>Você precisa fazer login como <strong>administrador</strong> para acessar esta página.</p>
+                <a href="login.html" style="color:#4a148c; font-weight:bold;">🔐 Ir para login</a>
+                </main>
+            `;
             return;
-        }
+            }
 
-        const novaDica = { texto, icone };
-        dicas.push(novaDica);
-        dicasSalvas.push(novaDica);
-        localStorage.setItem("dicasAdmin", JSON.stringify(dicasSalvas));
+            // ✅ Saudação personalizada
+            function gerarSaudacao() {
+            const saudacaoEl = document.getElementById("saudacao-admin");
+            const agora = new Date();
 
-        mensagem.textContent = "✅ Dica adicionada com sucesso!";
-        mensagem.style.color = "#2e7d32";
-        e.target.reset();
+            const diasSemana = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+            const dia = diasSemana[agora.getDay()];
+
+            const horas = agora.getHours();
+            let periodo = "da manhã";
+            if (horas >= 12 && horas < 18) periodo = "da tarde";
+            else if (horas >= 18) periodo = "da noite";
+
+            saudacaoEl.textContent = `Olá, ${logado}! Hoje é ${dia}, ${horas.toString().padStart(2, '0')}h ${periodo}.`;
+            }
+
+            gerarSaudacao();
+
+            // ✅ Resumo do sistema
+            document.getElementById("usuario-nome").textContent = logado;
+            document.getElementById("resumo-produtos").textContent = produtos.length;
+            document.getElementById("resumo-usuarios").textContent = usuarios.length;
+            document.getElementById("resumo-login").textContent = logado;
+
+            const maxProdutos = 100;
+            const maxUsuarios = 20;
+
+            document.getElementById("barra-produtos").style.width = `${Math.min((produtos.length / maxProdutos) * 100, 100)}%`;
+            document.getElementById("barra-usuarios").style.width = `${Math.min((usuarios.length / maxUsuarios) * 100, 100)}%`;
+
+            // ✅ Relógio em tempo real
+            function atualizarRelogio() {
+            const agora = new Date();
+            const horas = agora.getHours().toString().padStart(2, '0');
+            const minutos = agora.getMinutes().toString().padStart(2, '0');
+            const segundos = agora.getSeconds().toString().padStart(2, '0');
+            const relogio = document.getElementById("relogio");
+            if (relogio) {
+                relogio.textContent = `${horas}:${minutos}:${segundos}`;
+            }
+            }
+
+            setInterval(atualizarRelogio, 1000);
+            atualizarRelogio();
+
+            // ✅ Dicas administrativas
+            const dicasPadrao = [
+            { texto: "Use o botão <strong>Exportar JSON</strong> para fazer backup dos produtos.", icone: "🧾" },
+            { texto: "Cadastre usuários com nível <strong>editor</strong> para limitar permissões.", icone: "🔐" },
+            { texto: "Verifique as imagens dos produtos para garantir boa apresentação.", icone: "🖼️" },
+            { texto: "Use o menu lateral para navegar entre funções administrativas.", icone: "🧭" },
+            { texto: "Mantenha o número de produtos atualizado para facilitar o controle.", icone: "📊" }
+            ];
+
+            const dicasSalvas = JSON.parse(localStorage.getItem("dicasAdmin")) || [];
+            const dicas = [...dicasPadrao, ...dicasSalvas];
+
+            let dicaAtual = 0;
+            function trocarDica() {
+            const dicaTexto = document.getElementById("dica-texto");
+            const dicaIcone = document.getElementById("dica-icone");
+            const card = document.getElementById("dica-card");
+
+            card.classList.remove("show");
+            setTimeout(() => {
+                dicaTexto.innerHTML = dicas[dicaAtual].texto;
+                dicaIcone.textContent = dicas[dicaAtual].icone;
+                card.classList.add("show");
+                dicaAtual = (dicaAtual + 1) % dicas.length;
+            }, 300);
+            }
+
+            setInterval(trocarDica, 15000);
+            trocarDica();
+
+            // ✅ Mostrar todas as dicas
+            document.getElementById("btn-ver-todas").addEventListener("click", () => {
+            const lista = document.getElementById("lista-dicas");
+            const visivel = lista.style.display === "block";
+            lista.style.display = visivel ? "none" : "block";
+
+            if (!visivel) {
+                renderizarListaDicas();
+            }
+            });
+
+            function renderizarListaDicas() {
+            const ul = document.getElementById("dicas-completas");
+            ul.innerHTML = "";
+
+            dicas.forEach((dica, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `${dica.icone} ${dica.texto}`;
+
+                const btnExcluir = document.createElement("button");
+                btnExcluir.textContent = "🗑️";
+                btnExcluir.title = "Excluir";
+                btnExcluir.addEventListener("click", () => {
+                if (confirm("Excluir esta dica?")) {
+                    dicas.splice(index, 1);
+                    if (index >= dicasPadrao.length) {
+                    dicasSalvas.splice(index - dicasPadrao.length, 1);
+                    localStorage.setItem("dicasAdmin", JSON.stringify(dicasSalvas));
+                    }
+                    renderizarListaDicas();
+                }
+                });
+
+                const btnEditar = document.createElement("button");
+                btnEditar.textContent = "✏️";
+                btnEditar.title = "Editar";
+                btnEditar.addEventListener("click", () => {
+                const novoTexto = prompt("Editar texto da dica:", dica.texto.replace(/<[^>]+>/g, ""));
+                const novoIcone = prompt("Editar ícone da dica:", dica.icone);
+                if (novoTexto && novoIcone) {
+                    dicas[index] = { texto: novoTexto, icone: novoIcone };
+                    if (index >= dicasPadrao.length) {
+                    dicasSalvas[index - dicasPadrao.length] = { texto: novoTexto, icone: novoIcone };
+                    localStorage.setItem("dicasAdmin", JSON.stringify(dicasSalvas));
+                    }
+                    renderizarListaDicas();
+                }
+                });
+
+                li.appendChild(btnEditar);
+                li.appendChild(btnExcluir);
+                ul.appendChild(li);
+            });
+            }
+
+            // ✅ Cadastro de nova dica
+            document.getElementById("form-nova-dica").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const texto = document.getElementById("nova-dica-texto").value.trim();
+            const icone = document.getElementById("nova-dica-icone").value.trim();
+            const mensagem = document.getElementById("mensagem-dica");
+
+            if (!texto || !icone) {
+                mensagem.textContent = "❌ Preencha todos os campos.";
+                mensagem.style.color = "#d32f2f";
+                return;
+            }
+
+            const novaDica = { texto, icone };
+            dicas.push(novaDica);
+            dicasSalvas.push(novaDica);
+            localStorage.setItem("dicasAdmin", JSON.stringify(dicasSalvas));
+
+            mensagem.textContent = "✅ Dica adicionada com sucesso!";
+            mensagem.style.color = "#2e7d32";
+            e.target.reset();
+            });
+
+            // ✅ Logout
+            window.logout = function () {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "login.html";
+            };
         });
-
-        // ✅ Logout
-        window.logout = function () {
-        localStorage.removeItem("usuarioLogado");
-        window.location.href = "login.html";
-        };
-    });
-</script>
+    </script>
 </body>
 </html>

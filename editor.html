@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel do Editor</title>
-  <link rel="stylesheet" href="css/painel.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/layout.css" />
+<link rel="stylesheet" href="css/componentes.css" />
+<link rel="stylesheet" href="css/dicas.css" />
+<link rel="stylesheet" href="css/resumo.css" />
+<link rel="stylesheet" href="css/tema.css" />
+<link rel="stylesheet" href="css/responsivo.css" />
 </head>
 <body>
   <main class="container">
@@ -13,6 +19,7 @@
       <div class="acoes-painel">
         <span id="relogio" class="relogio"></span>
         <button id="toggle-tema">🌓 Alternar Tema</button>
+        <button onclick="voltarMenu()">🔙 Voltar ao Menu</button>
         <button onclick="logout()">🚪 Sair</button>
       </div>
     </div>
@@ -32,5 +39,6 @@
   </main>
 
   <script src="js/editor.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 </html>

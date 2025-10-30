@@ -1,0 +1,93 @@
+/* 📦 Container principal */
+.container {
+  max-width: 960px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 🧭 Barra lateral fixa */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: #4a148c;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+
+.sidebar .logo {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 16px;
+}
+
+.sidebar nav ul li a,
+.sidebar nav ul li button {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li button:hover {
+  background-color: #6a1b9a;
+}
+
+/* 🧱 Área principal */
+.dashboard {
+  margin-left: 240px;
+  padding: 40px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-header.centralizado {
+  flex-direction: column;
+  text-align: center;
+}
+
+.dashboard-content {
+  text-align: center;
+}
+
+.titulo-painel {
+  font-size: 2rem;
+  color: #4a148c;
+  margin-bottom: 10px;
+}
+
+.relogio {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4a148c;
+}

@@ -1,0 +1,111 @@
+/* 💡 Dica rotativa */
+.card-dica.rotativa-card {
+  background-color: #fff8e1;
+  border-left: 6px solid #ffb300;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+  text-align: left;
+}
+
+.card-dica.rotativa-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-dica.rotativa-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.card-dica .dica-icone {
+  font-size: 1.6rem;
+  display: block;
+  margin-bottom: 10px;
+  color: #ffb300;
+}
+
+/* 📋 Lista de dicas */
+.dicas-lista {
+  margin-top: 20px;
+  text-align: left;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dicas-lista h3 {
+  color: #4a148c;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dicas-lista ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dicas-lista li {
+  background-color: #fff8e1;
+  border-left: 4px solid #ffb300;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #444;
+  position: relative;
+}
+
+.dicas-lista button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #4a148c;
+  margin-left: 6px;
+}
+
+.dicas-lista button:hover {
+  color: #6a1b9a;
+}
+
+/* ✨ Transição suave */
+.fade {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+/* 📋 Botão ver todas */
+.btn-dicas {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 16px;
+  font-size: 1rem;
+  background-color: #ffb300;
+  color: #121212;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-dicas:hover {
+  background-color: #ffa000;
+}
+
+.dashboard-dicas h2 {
+  font-size: 1.4rem;
+  color: #4a148c;
+  margin-bottom: 20px;
+  text-align: center;
+}
