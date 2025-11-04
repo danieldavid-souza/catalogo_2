@@ -181,7 +181,7 @@ function loadFromFile(file) {
 /* ===================== LOAD produtos.json (relative) ===================== */
 async function loadProdutosJsonAuto() {
   try {
-    const res = await fetch('produtos.json', { cache: 'no-cache' });
+    const res = await fetch('data/produtos.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (!Array.isArray(data)) throw new Error('produtos.json não é um array');
