@@ -1,105 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.6/dist/purify.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <title>Catálogo Lima Calixto</title>
-  <link rel="stylesheet" href="css/index.css" />
-  <link rel="stylesheet" href="css/lightbox.css" />
-  <link rel="stylesheet" href="css/botao-whatsapp.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lima Calixto Personalizados — Catálogo</title>
+  <meta name="description" content="Catálogo Lima Calixto — Sublimação, Personalizados e Convites Digitais" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" href="assets/logo-lima-calixto.png" as="image" />
 </head>
 <body>
-  <header>
-    <h1>Catálogo Lima Calixto</h1>
-    <p>💖✨ Emoção nos detalhes. Propósito em cada presente.</p>
-    <div id="filtros">
-      <input type="text" id="busca" placeholder="Buscar por nome ou descrição" />
-      <input type="number" id="preco-min" placeholder="Preço mínimo" />
-      <input type="number" id="preco-max" placeholder="Preço máximo" />
-      <select id="categoria">
-        <option value="Todos">Todas as Categorias</option>
-      </select>
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="container header-content">
+      <a class="brand" href="#" aria-label="Lima Calixto Personalizados — Início">
+        <img class="brand-logo-img" src="assets/logo-lima-calixto.png" alt="Logo Lima Calixto Personalizados" width="72" height="72" />
+        <div class="brand-text">
+          <span class="brand-name">Lima Calixto</span>
+          <span class="brand-sub">Personalizados</span>
+        </div>
+      </a>
+
+      <div class="header-actions" role="toolbar" aria-label="Ações do cabeçalho">
+        <!-- Busca -->
+        <label class="search" aria-label="Pesquisar produtos">
+          <input id="searchInput" type="search" placeholder="Buscar por nome ou descrição…" autocomplete="off" />
+          <span class="search-icon" aria-hidden="true">⌕</span>
+        </label>
+
+        <!-- WhatsApp number -->
+        <div class="whatsapp-config" aria-hidden="false">
+          <input id="waNumberInput" type="tel" placeholder="WhatsApp (ex: 5511999999999)" aria-label="Número WhatsApp" />
+          <button id="saveWaBtn" class="btn ghost" type="button" title="Salvar número WhatsApp">Salvar</button>
+        </div>
+
+        <!-- Theme toggle -->
+        <button id="themeToggle" class="btn ghost" type="button" aria-pressed="false" aria-label="Alternar tema">🌗</button>
+      </div>
     </div>
   </header>
 
-  <div class="compartilhar-wrapper">
-    <button id="btn-compartilhar-catalogo">📤 Compartilhar Catálogo</button>
-    <button id="btn-voltar-menu" style="display:none;">🔙 Voltar ao Menu Principal</button>
-    <div id="menu-compartilhar-catalogo" class="menu-compartilhar">
-      <button data-campanha="presentes" data-plataforma="whatsapp">🎁 WhatsApp</button>
-      <button data-campanha="infantil" data-plataforma="telegram">🧸 Telegram</button>
-      <button data-campanha="convites" data-plataforma="email">📩 Email</button>
-      <button id="fechar-menu-compartilhar">❌ Fechar</button>
+  <!-- FILTERS -->
+  <section class="filters" aria-label="Filtros do catálogo">
+    <div class="container filters-grid">
+      <div class="filter-block">
+        <label for="categorySelect" class="filter-label">Categoria</label>
+        <select id="categorySelect" class="filter-control">
+          <option value="todas" selected>Todas Categorias</option>
+          <option value="Sublimação">Sublimação</option>
+          <option value="Personalizados">Personalizados</option>
+          <option value="Convites Digitais">Convites Digitais</option>
+        </select>
+      </div>
+
+      <div class="filter-block">
+        <label for="minPrice" class="filter-label">Preço mínimo (R$)</label>
+        <input id="minPrice" class="filter-control" type="number" min="0" step="0.01" />
+      </div>
+
+      <div class="filter-block">
+        <label for="maxPrice" class="filter-label">Preço máximo (R$)</label>
+        <input id="maxPrice" class="filter-control" type="number" min="0" step="0.01" />
+      </div>
+
+      <div class="filter-block">
+        <label for="sortSelect" class="filter-label">Ordenar por</label>
+        <select id="sortSelect" class="filter-control">
+          <option value="default">Padrão</option>
+          <option value="price-asc">Preço: menor → maior</option>
+          <option value="price-desc">Preço: maior → menor</option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button id="applyFiltersBtn" class="btn primary" type="button">Aplicar</button>
+        <button id="clearFiltersBtn" class="btn ghost" type="button">Limpar</button>
+      </div>
     </div>
-  </div>
 
-  <div id="loading" class="loading hidden">Carregando produtos...</div>
+    <!-- EXTERNAL LOAD / ADMIN CONTROLS (dev only) -->
+    <!-- Estrutura semântica: dev-header (título + subtítulo) + load-row (controles) -->
+    <div class="container external-load" aria-hidden="true">
+      <div class="dev-header">
+        <h3 class="dev-title">⚙️ Modo Desenvolvedor</h3>
+        <p class="dev-sub">Carregar ou exportar produtos (visível apenas localmente).</p>
+      </div>
 
-  <main>
-    <section id="Sublimação">
-      <h2>Sublimação</h2>
-      <div class="grid" id="sublimacao-grid"></div>
-    </section>
+      <div class="load-row" role="region" aria-label="Controles de administração">
+        <input id="externalUrl" class="filter-control" type="url" placeholder="URL para JSON público (https://.../produtos.json)" />
+        <button id="loadUrlBtn" class="btn" type="button">Carregar JSON</button>
 
-    <section id="Personalizados">
-      <h2>Personalizados</h2>
-      <div class="grid" id="personalizados-grid"></div>
-    </section>
+        <input id="fileInput" type="file" accept=".json,.csv" />
+        <button id="loadFileBtn" class="btn ghost" type="button">Carregar arquivo</button>
 
-    <section id="Convites Digitais">
-      <h2>Convites Digitais</h2>
-      <div class="grid" id="convites-digitais-grid"></div>
-    </section>
+        <button id="resetToDefaultBtn" class="btn ghost" type="button">Usar produtos internos</button>
+        <button id="exportBtn" class="btn ghost" type="button" title="Exportar produtos atuais para download">Exportar JSON</button>
+      </div>
+
+      <div style="margin-top:10px;text-align:center;">
+        <small class="muted">JSON esperado: array de objetos com campos (id/name/nome, description/descricao, category/categoria, price/preco, image/imagem). CSV simples também suportado.</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATUSBAR -->
+  <section class="statusbar" aria-live="polite" aria-atomic="true">
+    <div class="container statusbar-grid">
+      <div id="resultsCount" class="status-item">Carregando produtos…</div>
+      <div id="activeFilters" class="status-item muted"></div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS GRID -->
+  <main class="container products-area" role="main">
+    <div id="productsGrid" class="products-grid" role="list" aria-label="Lista de produtos"></div>
   </main>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="lightbox hidden">
-    <div class="lightbox-content">
-      <span class="close-btn" aria-label="Fechar lightbox">&times;</span>
-      <button id="btnAnterior" class="nav-btn anterior">◀</button>
-      <button id="btnProximo" class="nav-btn proximo">▶</button>
-      <img id="lightbox-img" src="" alt="">
-      <p id="lightbox-desc"></p>
-      <div id="contadorLightbox" class="contador"></div>
+  <!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-logo-wrap">
+      <img src="imagens/logo/logo-lima-calixto.png" alt="Logo Lima Calixto" class="footer-logo">
+      <h2 class="footer-brand">Lima Calixto Personalizados</h2>
     </div>
+
+    <p><strong>Serviços:</strong> Personalizados, Sublimação e Convites Digitais</p>
+    <p><strong>Contato:</strong> <a href="https://wa.me/5532991657472?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Lima%20Calixto%20Personalizados.%0APoderia%20me%20enviar%20informa%C3%A7%C3%B5es%20ou%20cat%C3%A1logos%20dispon%C3%ADveis%3F" target="_blank">WhatsApp</a> | <a href="mailto:marlycalixto80@hotmail.com">marlycalixto80@hotmail.com</a></p>
+    <p><strong>Endereço:</strong> Rua Benjamim Elidio Faria, 215 – Vila Montanhesa – Juiz de Fora / MG</p>
+
+    <p class="footer-rights">&copy; <span id="yearNow"></span> Lima Calixto Personalizados — Todos os direitos reservados.</p>
+
+    <p class="footer-bottom">Feito com 💛 por Lima Calixto Personalizados</p>
   </div>
+</footer>
 
-  <!-- 📌 Rodapé com informações e links sociais -->
-  <footer class="rodape">
-    <p>&copy; 2025 Daniel | Todos os direitos reservados.</p>
-    <div class="social">
-      <a href="https://instagram.com/limacalixtopersonalizados" target="_blank" aria-label="Instagram">Instagram</a>
-      <a href="https://github.com/danieldavid-souza" target="_blank" aria-label="GitHub">GitHub</a>
-      <a href="mailto:danieldavid.souza@gmail.com" aria-label="Email">Contato</a>
-    </div>
-  </footer>
+  <!-- Script principal -->
+  <script src="script.js" defer></script>
 
-  <!-- Scripts -->
-  <script src="js/mensagem-whatsapp.js" defer></script>
-  <script src="js/produtos.js" defer></script>
-  <script src="js/lightbox.js" defer></script>
-  <script src="js/filtros.js" defer></script>
-  <script src="js/compartilhar-catalago.js" defer></script>
-  <script src="js/admin.js" defer></script>
-
-<script>
-    const btnVoltar = document.getElementById("btn-voltar-menu");
-
-  // Detecta ambiente local: localhost, 127.0.0.1 ou acesso direto via file://
-  const isLocal = (
-    location.hostname === "localhost" ||
-    location.hostname === "127.0.0.1" ||
-    location.protocol === "file:"
-  );
-
-  if (isLocal && btnVoltar) {
-    btnVoltar.style.display = "inline-block";
-    btnVoltar.addEventListener("click", () => {
-      window.location.href = "menu.html";
-    });
-  }
-</script>
+  <!-- Pequeno snippet para garantir que .external-load fica visível em dev -->
+  <script>
+    // garante que a área admin seja mostrada automaticamente em dev (localhost/file)
+    (function showAdminIfLocal() {
+      try {
+        const admin = document.querySelector('.external-load');
+        if (!admin) return;
+        const host = location.hostname || '';
+        const protocol = location.protocol || '';
+        const forced = localStorage.getItem('lc_show_admin') === '1';
+        const isLocal = host === 'localhost' || host === '127.0.0.1' || protocol === 'file:';
+        if (isLocal || forced) {
+          admin.classList.add('admin-visible');
+          admin.style.display = 'block';
+          admin.removeAttribute('aria-hidden');
+        } else {
+          // keep hidden by default in prod (the CSS + script.js toggle handle it too)
+          // ensure aria-hidden attr for accessibility
+          admin.setAttribute('aria-hidden', 'true');
+        }
+      } catch (e) {
+        console.error('admin visibility snippet error', e);
+      }
+    })();
+  </script>
 </body>
 </html>

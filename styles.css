@@ -1,0 +1,624 @@
+/* ==========================================================================
+   styles.css — Lima Calixto Personalizados
+   Versão completa: tema dual, layout, cards, botões, modal, admin controls
+   Comentários explicativos para fácil manutenção.
+   ========================================================================== */
+
+/* ---------------------- ROOT / VARIÁVEIS DE TEMA ---------------------- */
+
+/* Variáveis usadas por todo o layout. Ajuste aqui as cores principais. */
+:root{
+  --bg: #0b0c0f;                 /* fundo (dark default) */
+  --surface: #101319;            /* superfícies (cards, inputs) */
+  --surface-2: #141924;          /* superfície secundária (header/filters) */
+  --text: #eaeef7;               /* texto principal */
+  --muted: #a9b1c3;              /* texto secundário / labels */
+  --brand: #7c5cff;              /* cor principal (roxo) */
+  --brand-2: #00d4ff;            /* cor secundária (azul) */
+  --border: rgba(255,255,255,.08);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --gap: 20px;
+  --container: min(1100px, 92vw);
+  --card-media-height: 220px;
+  --elevation-1: 0 6px 18px rgba(2,6,23,0.45);
+}
+
+/* transições sutis para mudanças de tema e interações */
+*{box-sizing:border-box;transition:background-color .22s ease,color .22s ease,border-color .22s ease,transform .12s ease}
+html,body{height:100%}
+
+/* ----------------------------- BODY ----------------------------- */
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* basic container width */
+.container{
+  width: var(--container);
+  margin-inline: auto;
+  padding-inline: 8px;
+}
+
+/* utility */
+.muted { color: var(--muted); }
+.small { font-size: .92rem; }
+.link { color: inherit; text-decoration: none; }
+
+/* ----------------------------- LIGHT THEME ----------------------------- */
+/* When body has data-theme="light" these variables override the dark ones. */
+body[data-theme="light"]{
+  --bg:#f6f7fb;
+  --surface:#ffffff;
+  --surface-2:#f1f3f8;
+  --text:#1a1d29;
+  --muted:#5c637a;
+  --brand:#6a4cff;
+  --brand-2:#00a6ff;
+  --border: rgba(0,0,0,.08);
+}
+
+/* ----------------------------- HEADER ----------------------------- */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: linear-gradient(to bottom, var(--surface-2), transparent);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.header-content{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 8px;
+}
+
+/* Brand (logo + text) */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color: inherit;
+  text-decoration: none;
+}
+.brand-logo-img{
+  display:inline-block;
+  width:72px;
+  height:72px;
+  object-fit:contain;       /* evita corte */
+  border-radius:12px;       /* cantos suaves */
+  box-shadow: var(--elevation-1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+}
+.brand-text{ display:flex; flex-direction:column; line-height:1; }
+.brand-name{ font-weight:700; font-size:1.15rem; color:var(--text); }
+.brand-sub{ font-size:0.95rem; color:var(--muted); }
+
+/* Header actions: busca, whatsapp number, theme toggle */
+.header-actions{ display:flex; align-items:center; gap:10px; }
+
+/* Search */
+.search{ position: relative; }
+.search input{
+  width: min(52vw, 360px);
+  padding:10px 36px 10px 12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+}
+.search input:focus{ box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.search-icon{ position:absolute; right:10px; top:50%; transform:translateY(-50%); color:var(--muted) }
+
+/* small whatsapp number input container */
+.whatsapp-config{ display:flex; gap:8px; align-items:center; }
+.whatsapp-config input{
+  padding:8px 10px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  width:200px;
+}
+.whatsapp-config .btn{ padding:8px 10px; }
+
+/* theme toggle */
+.btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; border:1px solid var(--border); background:var(--surface-2); color:var(--text); cursor:pointer; }
+.btn.ghost{ background: transparent; }
+.btn.primary{ background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#fff; border:0; font-weight:700; box-shadow: 0 6px 18px rgba(124,92,255,0.12); }
+
+/* remove underline for anchor buttons */
+a.btn{ text-decoration:none; }
+
+/* ----------------------------- FILTERS ----------------------------- */
+.filters{ border-bottom:1px solid var(--border); background:var(--surface-2); }
+.filters-grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  padding:18px 8px;
+}
+.filter-block{ grid-column: span 3; display:flex; flex-direction:column; gap:6px; }
+.filter-actions{ grid-column: span 3; display:flex; align-items:end; gap:10px; }
+
+.filter-control{
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+}
+
+/* Aplica o mesmo estilo do botão "Aplicar" ao botão "Limpar" */
+#clearFiltersBtn {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff;
+  border: 0;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(124,92,255,0.12);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+
+/* Hover / foco */
+#clearFiltersBtn:hover,
+#clearFiltersBtn:focus {
+  opacity: 0.95;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(124,92,255,0.18);
+  outline: none;
+}
+
+/* Active / pressionado */
+#clearFiltersBtn:active {
+  transform: scale(.98);
+  box-shadow: 0 4px 12px rgba(124,92,255,0.12);
+}
+
+/* Se quiser também remover sublinhado caso seja um <a> estilizado, garantir: */
+#clearFiltersBtn, #clearFiltersBtn a {
+  text-decoration: none;
+}
+
+/* ----------------------------- ADMIN / EXTERNAL LOAD ----------------------------- */
+/* Container that holds the load URL / file / export controls.
+   By default it's visible — but the JS can hide/show it based on environment.
+*/
+/* ============================================================
+   Centralização e destaque da área "Modo Desenvolvedor"
+   ============================================================ */
+
+/* Container principal da área de administração (upload/export) */
+.external-load {
+  padding: 20px;
+  display: block;
+  text-align: center; /* ← centraliza o conteúdo na página */
+  background: var(--surface-2);
+  border: 1px dashed rgba(124, 92, 255, 0.25);
+  border-radius: 14px;
+  margin: 30px auto;
+  max-width: 800px;
+  color: var(--text);
+}
+
+/* Quando visível em modo admin (localhost, 127.0.0.1, ou file:) */
+.external-load.admin-visible {
+  display: block !important;
+  opacity: 1;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px dashed rgba(124, 92, 255, 0.25);
+  background: linear-gradient(180deg, rgba(124,92,255,0.05), transparent);
+  text-align: center; /* ← garante centralização mesmo se sobrescrito */
+}
+
+/* Título do modo desenvolvedor (ex: "⚙️ Modo Desenvolvedor") */
+.external-load h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+
+/* Subtexto (ex: "Carregar ou exportar produtos...") */
+.external-load p {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Linha de botões e inputs */
+.external-load .load-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* ← centraliza os botões e campos */
+  align-items: center;
+  gap: 10px;
+}
+
+/* Ajuste responsivo */
+@media (max-width: 560px) {
+  .external-load {
+    padding: 16px;
+    margin: 20px auto;
+  }
+  .external-load .load-row {
+    flex-direction: column;
+  }
+}
+
+/* ===== Centralizar título/subtexto do Modo Desenvolvedor ===== */
+
+/* garante que o header de admin fique centralizado */
+.external-load,
+.external-load .dev-header {
+  text-align: center !important;      /* centraliza texto */
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* estilo do título (acentua e centraliza) */
+.external-load .dev-title {
+  margin: 0 0 6px 0 !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--brand) !important;
+  line-height: 1.1 !important;
+}
+
+/* estilo do subtítulo (centralizado e mais leve) */
+.external-load .dev-sub {
+  margin: 0 0 14px 0 !important;
+  font-size: .98rem !important;
+  color: var(--muted) !important;
+}
+
+/* garante que a linha de controles (inputs/button) fique centralizada */
+.external-load .load-row {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+/* responsivo: menor espaçamento em telas pequenas */
+@media (max-width: 560px) {
+  .external-load .dev-title { font-size: 1.05rem !important; }
+  .external-load .dev-sub { font-size: .92rem !important; }
+  .external-load .load-row { flex-direction: column !important; gap: 8px !important; }
+}
+
+/* ----------------------------- PRODUCTS GRID & CARD ----------------------------- */
+.products-area{ padding:22px 8px 40px; }
+.products-grid{
+  display:grid;
+  grid-template-columns: repeat(12,1fr);
+  gap: var(--gap);
+}
+
+/* card */
+.product-card{
+  grid-column: span 3;
+  background: var(--surface);
+  border-radius: 14px;
+  overflow: hidden;
+  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+}
+.product-media{
+  height: var(--card-media-height);
+  background: var(--surface-2);
+  display:flex; align-items:center; justify-content:center; padding:12px;
+}
+.product-media img{
+  max-width:100%;
+  max-height:100%;
+  object-fit: contain;   /* IMPORTANT: evita corte da imagem */
+  border-radius:8px;
+}
+.product-body{ padding:14px; display:flex; flex-direction:column; gap:10px; flex:1; }
+.product-title{ font-weight:700; font-size:1.05rem; }
+.product-desc{ color:var(--muted); font-size:0.95rem; }
+.product-meta{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.badge{ font-size:.78rem; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background: rgba(124,92,255,0.12); }
+.price{ font-weight:800; font-size:1.05rem; }
+
+/* card actions layout */
+.card-actions{ display:flex; gap:8px; }
+.card-actions .btn{ flex:1; }
+
+/* ----------------------------- BUTTONS: DETAILS, WHATSAPP, PRIMARY ----------------------------- */
+
+/* "Detalhes" button style (matches primary/pedir orçamento) */
+.btn.details{
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding:9px 14px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow: 0 3px 8px rgba(124,92,255,0.35);
+}
+.btn.details:hover{ opacity:.95; transform: translateY(-2px); box-shadow:0 4px 12px rgba(124,92,255,0.45) }
+.btn.details:active{ transform: scale(.97); box-shadow:0 2px 6px rgba(124,92,255,0.3) }
+
+/* WhatsApp button: gradient green + icon */
+.btn.whatsapp{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background: linear-gradient(135deg,#25D366,#128C7E);
+  color:#fff;
+  font-weight:600;
+  border:none;
+  border-radius:10px;
+  padding:9px 14px;
+  cursor:pointer;
+  box-shadow:0 3px 8px rgba(18,140,126,0.35);
+}
+.btn.whatsapp::before{
+  content:"";
+  display:inline-block;
+  width:18px; height:18px;
+  background: url("https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg") no-repeat center;
+  background-size:contain;
+  filter: invert(1);
+}
+/* remove underline for anchor variant explicitly */
+a.btn.whatsapp{ text-decoration:none !important; }
+.btn.whatsapp:hover{ opacity:.95; transform: translateY(-2px); box-shadow:0 4px 12px rgba(18,140,126,0.45) }
+.btn.whatsapp:active{ transform: scale(.97); box-shadow:0 2px 6px rgba(18,140,126,0.3) }
+.btn.whatsapp[disabled], .btn.whatsapp:disabled{ opacity:.5; cursor:not-allowed; box-shadow:none }
+
+/* make anchor look like button on small screens */
+@media (max-width:560px){
+  .btn.whatsapp{ width:100%; justify-content:center; font-size:.95rem; }
+  .card-actions{ flex-direction:column; }
+}
+
+/* ----------------------------- INPUT[type=file] STYLING ----------------------------- */
+/* Keep native file input accessible but present a prettier button */
+input[type="file"]{
+  position: relative;
+  display: inline-block;
+  padding:10px 14px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: .95rem;
+  transition: all .22s ease;
+}
+/* hide native upload button (webkit) */
+input[type="file"]::-webkit-file-upload-button { visibility: hidden; }
+/* custom pseudo-button */
+input[type="file"]::before{
+  content: "📁 Escolher arquivo";
+  display:inline-block;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff;
+  border-radius:8px;
+  padding:8px 14px;
+  margin-right:10px;
+  cursor: pointer;
+  font-weight:600;
+  font-size:.9rem;
+  border:none;
+  transition: all .18s ease;
+}
+input[type="file"]:hover::before{ opacity:.95; transform: scale(1.02); }
+input[type="file"]:active::before{ opacity:.9; transform: scale(.98); }
+/* hide file selector button for modern browsers */
+input[type="file"]::file-selector-button{ display:none; }
+
+/* ----------------------------- FOOTER ----------------------------- */
+.site-footer{
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  padding: 40px 8px 50px;
+  color: var(--muted);
+}
+.footer-grid{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:40px;
+}
+.footer-left{ flex:1 1 300px; }
+.footer-right{ flex:1 1 200px; text-align:right; display:flex; flex-direction:column; gap:6px; }
+.brand-footer{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.brand-footer .brand-logo-img{ width:48px; height:48px; border-radius:10px; object-fit:contain; }
+.brand-footer .brand-text{ display:flex; flex-direction:column; font-weight:700; color:var(--text); }
+.brand-footer .brand-sub{ font-size:.9rem; font-weight:400; color:var(--muted); }
+.site-footer a.link:hover{ color: var(--brand-2); text-decoration: underline; }
+
+/* ----------------------------- MODAL ----------------------------- */
+#lcModal{ position:fixed; inset:0; display:none; place-items:center; background: rgba(0,0,0,0.6); z-index:99999; }
+#lcModal.open{ display:grid; }
+#lcModal .card{ width: min(760px, 94%); background: var(--surface); border-radius:14px; padding:18px; color:var(--text); }
+
+/* ----------------------------- RESPONSIVE ----------------------------- */
+@media (max-width:1100px){
+  .product-card{ grid-column: span 4; }
+}
+@media (max-width:860px){
+  .filters-grid{ grid-template-columns: repeat(6,1fr); }
+  .filter-block{ grid-column: span 3; }
+  .filter-actions{ grid-column: span 6; }
+  .product-card{ grid-column: span 6; }
+  .search input{ width: min(64vw, 420px); }
+}
+@media (max-width:560px){
+  .header-content{ flex-direction:column; align-items:flex-start; }
+  .product-card{ grid-column: span 12; }
+  .filter-block, .filter-actions{ grid-column: span 12; }
+  .whatsapp-config input{ width:100%; }
+}
+@media (max-width:420px){
+  /* compact header: hide brand text on very small screens */
+  .brand-text{ display:none; }
+}
+
+/* ----------------------------- ACCESSIBILITY + SMALL HELPERS ----------------------------- */
+/* Visually hide but keep in DOM (useful for aria toggles) */
+.visually-hidden{
+  position: absolute !important;
+  height: 1px; width: 1px; overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px); white-space: nowrap;
+}
+
+/* Small utility spacing */
+.mt-8 { margin-top:8px; }
+.mb-8 { margin-bottom:8px; }
+
+/* ============================================================
+   🔹 RODAPÉ — LIMA CALIXTO PERSONALIZADOS
+   Layout centralizado, responsivo e elegante
+   ============================================================ */
+
+/* === Correção específica para o rodapé presente no seu HTML === */
+/* Cole este bloco no final do styles.css */
+
+footer.site-footer {
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  padding: 40px 12px;
+  color: var(--muted);
+}
+
+/* container interno do seu footer */
+.footer-content {
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;             /* centraliza todo o conteúdo */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+}
+
+/* wrap que contém logo + nome da marca */
+.footer-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;       /* centraliza horizontalmente */
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* imagem do logo — tamanho ideal e responsivo */
+.footer-logo {
+  width: 48px !important;        /* tamanho ideal no desktop */
+  height: 48px !important;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+/* leve efeito hover (opcional) */
+.footer-logo:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+}
+
+/* marca textual ao lado da logo */
+.footer-brand {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* parágrafos e links centralizados dentro do footer */
+footer.site-footer p,
+footer.site-footer a {
+  margin: 4px 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+footer.site-footer a {
+  color: var(--brand);
+  text-decoration: none;
+}
+footer.site-footer a:hover {
+  color: var(--brand-2);
+  text-decoration: underline;
+}
+
+/* direitos autorais / linha final */
+.footer-rights {
+  margin-top: 8px;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+/* rodapé menor e mais compacto em telas pequenas */
+@media (max-width: 560px) {
+  .footer-logo {
+    width: 42px !important;
+    height: 42px !important;
+  }
+  .footer-brand {
+    font-size: 1rem;
+  }
+  .footer-content { padding: 12px; gap: 8px; }
+}
+
+/* Caso ainda exista alguma regra global que force imagens do footer maiores,
+   esta regra com seletor mais específico garante que não ultrapassem o tamanho. */
+footer.site-footer img.footer-logo {
+  max-width: 100% !important;
+  height: auto !important;
+  width: 48px !important;
+}
+
+/* Ajuste responsivo: mantém centralizado em telas pequenas */
+@media (max-width: 560px) {
+  .site-footer {
+    padding: 40px 10px;
+  }
+  .brand-footer .brand-logo-img {
+    width: 50px;
+    height: 50px;
+  }
+  .brand-footer .brand-name {
+    font-size: 1rem;
+  }
+  .brand-footer .brand-sub {
+    font-size: 0.85rem;
+  }
+}
+
+/* ----------------------------- ADMIN DISPLAY HELP (force visible) ----------------------------- */
+/* In some builds a global rule could hide .external-load; this class / rule
+   gives the JS a way to force it visible with .admin-visible */
+.external-load.admin-visible { display:block !important; opacity:1; }
+
+/* ==========================================================================
+   FIM styles.css
+   ========================================================================== */

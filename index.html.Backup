@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.6/dist/purify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>Catálogo Lima Calixto</title>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/lightbox.css" />
+  <link rel="stylesheet" href="css/botao-whatsapp.css" />
+</head>
+<body>
+  <header>
+    <h1>Catálogo Lima Calixto</h1>
+    <p>💖✨ Emoção nos detalhes. Propósito em cada presente.</p>
+    <div id="filtros">
+      <input type="text" id="busca" placeholder="Buscar por nome ou descrição" />
+      <input type="number" id="preco-min" placeholder="Preço mínimo" />
+      <input type="number" id="preco-max" placeholder="Preço máximo" />
+      <select id="categoria">
+        <option value="Todos">Todas as Categorias</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="compartilhar-wrapper">
+    <button id="btn-compartilhar-catalogo">📤 Compartilhar Catálogo</button>
+    <button id="btn-voltar-menu" style="display:none;">🔙 Voltar ao Menu Principal</button>
+    <div id="menu-compartilhar-catalogo" class="menu-compartilhar">
+      <button data-campanha="presentes" data-plataforma="whatsapp">🎁 WhatsApp</button>
+      <button data-campanha="infantil" data-plataforma="telegram">🧸 Telegram</button>
+      <button data-campanha="convites" data-plataforma="email">📩 Email</button>
+      <button id="fechar-menu-compartilhar">❌ Fechar</button>
+    </div>
+  </div>
+
+  <div id="loading" class="loading hidden">Carregando produtos...</div>
+
+  <main>
+    <section id="Sublimação">
+      <h2>Sublimação</h2>
+      <div class="grid" id="sublimacao-grid"></div>
+    </section>
+
+    <section id="Personalizados">
+      <h2>Personalizados</h2>
+      <div class="grid" id="personalizados-grid"></div>
+    </section>
+
+    <section id="Convites Digitais">
+      <h2>Convites Digitais</h2>
+      <div class="grid" id="convites-digitais-grid"></div>
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox hidden">
+    <div class="lightbox-content">
+      <span class="close-btn" aria-label="Fechar lightbox">&times;</span>
+      <button id="btnAnterior" class="nav-btn anterior">◀</button>
+      <button id="btnProximo" class="nav-btn proximo">▶</button>
+      <img id="lightbox-img" src="" alt="">
+      <p id="lightbox-desc"></p>
+      <div id="contadorLightbox" class="contador"></div>
+    </div>
+  </div>
+
+  <!-- 📌 Rodapé com informações e links sociais -->
+  <footer class="rodape">
+    <p>&copy; 2025 Daniel | Todos os direitos reservados.</p>
+    <div class="social">
+      <a href="https://instagram.com/limacalixtopersonalizados" target="_blank" aria-label="Instagram">Instagram</a>
+      <a href="https://github.com/danieldavid-souza" target="_blank" aria-label="GitHub">GitHub</a>
+      <a href="mailto:danieldavid.souza@gmail.com" aria-label="Email">Contato</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/mensagem-whatsapp.js" defer></script>
+  <script src="js/produtos.js" defer></script>
+  <script src="js/lightbox.js" defer></script>
+  <script src="js/filtros.js" defer></script>
+  <script src="js/compartilhar-catalago.js" defer></script>
+  <script src="js/admin.js" defer></script>
+
+<script>
+    const btnVoltar = document.getElementById("btn-voltar-menu");
+
+  // Detecta ambiente local: localhost, 127.0.0.1 ou acesso direto via file://
+  const isLocal = (
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1" ||
+    location.protocol === "file:"
+  );
+
+  if (isLocal && btnVoltar) {
+    btnVoltar.style.display = "inline-block";
+    btnVoltar.addEventListener("click", () => {
+      window.location.href = "menu.html";
+    });
+  }
+</script>
+</body>
+</html>
