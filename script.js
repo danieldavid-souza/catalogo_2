@@ -424,25 +424,44 @@ function render() {
 function openProductModal(product, imageSrcOptional) {
   try {
     let modal = document.getElementById('lcModal');
+
+    // cria markup se ainda não existir
     if (!modal) {
       modal = document.createElement('div');
       modal.id = 'lcModal';
-      modal.innerHTML = `<div class="card" role="dialog" aria-modal="true" aria-labelledby="lcModalTitle">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <h3 id="lcModalTitle"></h3>
-          <button id="lcModalClose" class="btn ghost" aria-label="Fechar modal">Fechar</button>
+      modal.innerHTML = `
+        <div class="lc-modal-card" role="dialog" aria-modal="true" aria-labelledby="lcModalTitle">
+          <div class="lc-modal-header">
+            <h3 id="lcModalTitle" style="margin:0;font-size:1.05rem"></h3>
+            <div>
+              <button id="lcModalClose" class="btn ghost" aria-label="Fechar modal">Fechar</button>
+            </div>
+          </div>
+          <div class="lc-modal-body" id="lcModalBody">
+            <div id="lcModalMedia" style="display:block; width:100%;"></div>
+            <p id="lcModalDesc" class="lc-modal-desc"></p>
+          </div>
+          <div class="lc-modal-footer">
+            <button id="lcModalQuote" class="btn primary">Pedir orçamento (WhatsApp)</button>
+            <button id="lcModalShare" class="btn ghost" style="display:none;">Compartilhar</button>
+          </div>
         </div>
-        <div id="lcModalMedia" style="height:360px;margin-top:12px;display:flex;align-items:center;justify-content:center;overflow:hidden"></div>
-        <p id="lcModalDesc" style="color:var(--muted);margin-top:12px"></p>
-        <div style="margin-top:12px">
-          <button id="lcModalQuote" class="btn primary">Pedir orçamento (WhatsApp)</button>
-        </div>
-      </div>`;
+      `;
+      // append overlay to body
       document.body.appendChild(modal);
 
+      // fechar modal
       const closeBtn = document.getElementById('lcModalClose');
-      if (closeBtn) closeBtn.addEventListener('click', () => modal.remove());
+      if (closeBtn) closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
 
+      // fechar clicando fora do card (overlay)
+      modal.addEventListener('click', (ev) => {
+        if (ev.target === modal) modal.style.display = 'none';
+      });
+
+      // ação Pedir orçamento (botão no footer)
       const quoteBtn = document.getElementById('lcModalQuote');
       if (quoteBtn) {
         quoteBtn.addEventListener('click', () => {
@@ -455,25 +474,29 @@ function openProductModal(product, imageSrcOptional) {
       }
     }
 
+    // popula conteúdo do modal
     const resolvedImg = imageSrcOptional || product.image || placeholder(product.name);
     modal.setAttribute('data-product-id', product.id);
 
     const titleEl = document.getElementById('lcModalTitle');
-    if (titleEl) titleEl.textContent = product.name;
+    if (titleEl) titleEl.textContent = product.name || '';
 
     const mediaEl = document.getElementById('lcModalMedia');
     if (mediaEl) {
-      mediaEl.innerHTML = `<img src="${escapeHtml(resolvedImg)}" alt="${escapeHtml(product.name)}" style="width:100%;height:100%;object-fit:contain" />`;
+      // coloca a imagem dentro do container; ela respeitará o CSS (.lc-modal-body img)
+      mediaEl.innerHTML = `<img src="${escapeHtml(resolvedImg)}" alt="${escapeHtml(product.name)}" />`;
     }
+
     const descEl = document.getElementById('lcModalDesc');
     if (descEl) descEl.textContent = product.description || '';
 
+    // garante que o body comece no topo do conteúdo ao abrir (útil se já tinha scroll)
+    const bodyEl = document.getElementById('lcModalBody');
+    if (bodyEl) bodyEl.scrollTop = 0;
+
+    // exibe o modal (flexível)
     modal.style.display = 'grid';
-    modal.style.position = 'fixed';
-    modal.style.inset = 0;
     modal.style.placeItems = 'center';
-    modal.style.background = 'rgba(0,0,0,0.6)';
-    modal.style.zIndex = '99999';
   } catch (e) {
     console.error('[LimaCalixto] openProductModal error', e);
   }

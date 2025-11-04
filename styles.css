@@ -480,6 +480,92 @@ input[type="file"]::file-selector-button{ display:none; }
 #lcModal.open{ display:grid; }
 #lcModal .card{ width: min(760px, 94%); background: var(--surface); border-radius:14px; padding:18px; color:var(--text); }
 
+/* ===================== Modal responsivo / botões visíveis ===================== */
+/* Modal overlay */
+#lcModal {
+  display: none; /* mostrado via JS */
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Card interno do modal (conteúdo rolável) */
+#lcModal .lc-modal-card {
+  width: min(980px, 98%);
+  max-width: 980px;
+  max-height: calc(100vh - 48px); /* deixa pequeno espaço para o overlay */
+  background: var(--bg, #fff);
+  color: var(--text, #111);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cabeçalho do modal */
+#lcModal .lc-modal-header {
+  padding: 12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Área principal rolável (imagem + descrição) */
+#lcModal .lc-modal-body {
+  padding: 12px 16px;
+  overflow: auto;               /* permite rolagem interna em telas pequenas */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* garante que a imagem caiba e mantenha proporção */
+#lcModal .lc-modal-body img {
+  width: 100%;
+  height: auto;
+  max-height: 52vh;            /* limita altura da imagem para aparelhos pequenos */
+  object-fit: contain;
+  display:block;
+  margin: 0 auto;
+}
+
+/* descrição do produto */
+#lcModal .lc-modal-desc {
+  margin-top: 12px;
+  color: var(--muted, #666);
+  line-height: 1.4;
+}
+
+/* footer do modal com ações — fica "sticky" no fundo do card para sempre ficar visível */
+#lcModal .lc-modal-footer {
+  padding: 12px 16px;
+  display:flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items:center;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.0), rgba(255,255,255,0.98)); /* leve fade */
+  position: sticky;
+  bottom: 0;
+}
+
+/* mobile tweaks */
+@media (max-width: 520px) {
+  #lcModal .lc-modal-card { border-radius: 10px; }
+  #lcModal .lc-modal-header { padding: 10px; }
+  #lcModal .lc-modal-body { padding: 10px; }
+  #lcModal .lc-modal-footer { padding: 10px; gap:6px; }
+  #lcModal .lc-modal-body img { max-height: 40vh; }
+}
+
+/* acessibilidade: tornar botão de fechar mais visível em dark mode */
+#lcModal .btn.ghost { opacity: 0.95; }
+
 /* ----------------------------- RESPONSIVE ----------------------------- */
 @media (max-width:1100px){
   .product-card{ grid-column: span 4; }
