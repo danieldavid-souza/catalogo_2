@@ -643,6 +643,24 @@ footer.site-footer img.footer-logo {
    gives the JS a way to force it visible with .admin-visible */
 .external-load.admin-visible { display:block !important; opacity:1; }
 
+
+/* estilo do código do produto no card */
+.product-code {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--brand-2);
+  display: block;
+}
+.product-code strong {
+  color: var(--text);
+  background: rgba(0,0,0,0.12);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-family: monospace;
+  margin-left:6px;
+}
+
 /* ==========================================================================
    FIM styles.css
    ========================================================================== */

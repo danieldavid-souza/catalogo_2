@@ -1,15 +1,9 @@
 /**
- * script.js — Lima Calixto Catalogo (versão completa e robusta)
- * (Versão estendida com suporte a contato-whatsapp.json em produção)
+ * script.js — Lima Calixto Catalogo (com product codes e suporte contato-whatsapp.json)
  *
- * Principais mudanças:
- * - Adicionada função loadWhatsAppConfig() que:
- *   1) Usa localStorage (se existir) — útil em dev/admin;
- *   2) Caso contrário tenta carregar contato-whatsapp.json (produção);
- *   3) Suporta formatos flexíveis do JSON.
- * - loadWhatsAppConfig() é chamada na inicialização antes do render final.
- *
- * O resto do script foi mantido/portado fielmente da versão que você forneceu.
+ * Mantém todas as funcionalidades anteriores e adiciona:
+ * - assignProductCodes(products): cria campo `code` por produto (ex: "CD-0001")
+ * - usa product.code também nas mensagens geradas para WhatsApp
  */
 
 /* ===================== KEYS / CONSTANTS ===================== */
@@ -30,6 +24,61 @@ function formatBRL(v) {
   return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+/* ===================== PRODUCT CODES HELPERS ===================== */
+/** zero pad num to width (e.g. 1 -> "0001") */
+function zeroPad(num, width = 4) {
+  const s = String(num);
+  return s.length >= width ? s : '0'.repeat(width - s.length) + s;
+}
+
+/** cria acrônimo da categoria (até 3 letras) */
+function categoryAcronym(cat) {
+  if (!cat) return 'PRD';
+  const words = String(cat).trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return 'PRD';
+  if (words.length === 1) {
+    const filtered = words[0].replace(/[^A-Za-zÀ-ÿ]/g, '');
+    return (filtered.slice(0, 3).toUpperCase() || 'PRD');
+  }
+  return words.slice(0, 3).map(w => w[0]).join('').toUpperCase();
+}
+
+/**
+ * assignProductCodes(products)
+ * - products: array já normalizado [{id,name,category,...}, ...]
+ * Aplica o campo `code` a cada produto de forma determinística e amigável.
+ */
+function assignProductCodes(products) {
+  if (!Array.isArray(products)) return;
+  const seen = new Map(); // codeBase -> count (para suffix)
+  for (let i = 0; i < products.length; i++) {
+    const p = products[i];
+
+    let baseNum = null;
+    if (p.id !== undefined && p.id !== null) {
+      const m = String(p.id).match(/(\d+)/);
+      if (m) baseNum = Number(m[1]);
+    }
+    if (baseNum === null || Number.isNaN(baseNum)) baseNum = i + 1;
+
+    const prefix = categoryAcronym(p.category || 'PRD');
+    const core = zeroPad(baseNum, 4);
+    let candidateBase = `${prefix}-${core}`;
+    let candidate = candidateBase;
+
+    if (seen.has(candidateBase)) {
+      const n = seen.get(candidateBase) + 1;
+      seen.set(candidateBase, n);
+      const suffix = String.fromCharCode(64 + n);
+      candidate = `${candidateBase}-${suffix}`;
+    } else {
+      seen.set(candidateBase, 0);
+    }
+
+    p.code = candidate;
+  }
+}
+
 /* ===================== STATE ===================== */
 const state = {
   products: [],      // array normalized
@@ -38,7 +87,7 @@ const state = {
   minPrice: null,
   maxPrice: null,
   sort: 'default',   // use 'default' internally to match the <select> values
-  waNumber: localStorage.getItem(LS_WA_KEY) || '' // may be empty; loadWhatsAppConfig will try contato-whatsapp.json
+  waNumber: localStorage.getItem(LS_WA_KEY) || '' // may be empty; loadWhatsAppConfig can populate
 };
 
 /* ===================== THEME ===================== */
@@ -90,7 +139,9 @@ function readProductsFromLocalStorage() {
     if (!raw) return null;
     const arr = JSON.parse(raw);
     if (!Array.isArray(arr)) return null;
-    return normalizeProductsArray(arr);
+    const normalized = normalizeProductsArray(arr);
+    assignProductCodes(normalized);
+    return normalized;
   } catch (e) {
     console.error('[LimaCalixto] erro lendo localStorage', e);
     return null;
@@ -117,6 +168,7 @@ async function loadFromUrl(url) {
     const data = await res.json();
     if (!Array.isArray(data)) throw new Error('JSON precisa ser um array');
     state.products = normalizeProductsArray(data);
+    assignProductCodes(state.products);
     saveProductsToLocalStorage(state.products);
     render();
     alert('Produtos carregados via URL');
@@ -126,7 +178,6 @@ async function loadFromUrl(url) {
   }
 }
 function parseCSVToProducts(txt) {
-  // very small CSV parser (expects header row)
   const lines = txt.split(/\r?\n/).filter(l => l.trim() !== '');
   if (lines.length === 0) return [];
   const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
@@ -149,8 +200,10 @@ function loadFromFile(file) {
         const j = JSON.parse(txt);
         if (!Array.isArray(j)) throw new Error('JSON precisa ser um array');
         state.products = normalizeProductsArray(j);
+        assignProductCodes(state.products);
       } else if (file.name.toLowerCase().endsWith('.csv')) {
         state.products = parseCSVToProducts(txt);
+        assignProductCodes(state.products);
       } else {
         throw new Error('Formato não suportado');
       }
@@ -174,7 +227,7 @@ async function loadProdutosJsonAuto() {
     const data = await res.json();
     if (!Array.isArray(data)) throw new Error('produtos.json não é um array');
     state.products = normalizeProductsArray(data);
-    // save a copy to localStorage for editing convenience
+    assignProductCodes(state.products);
     saveProductsToLocalStorage(state.products);
     console.log('[LimaCalixto] produtos carregados de produtos.json');
     return true;
@@ -194,7 +247,6 @@ async function initialLoadProducts() {
     console.log('[LimaCalixto] produtos carregados do localStorage');
     render(); return;
   }
-  // embedded fallback
   const embedded = [
     { id: 1, name: 'Caneca de Porcelana 325ml', category: 'Sublimação', price: 35.9, description: 'Personalize com fotos, nomes ou frases.', image: '' },
     { id: 2, name: 'Camiseta Poliéster', category: 'Sublimação', price: 49.9, description: 'Estampa de alta definição.', image: '' },
@@ -202,37 +254,22 @@ async function initialLoadProducts() {
     { id: 4, name: 'Convite Digital Casamento', category: 'Convites Digitais', price: 49.9, description: 'Layout elegante.', image: '' }
   ];
   state.products = normalizeProductsArray(embedded);
+  assignProductCodes(state.products);
   render();
 }
 
 /* ===================== NEW: WHATSAPP CONFIG LOADER ===================== */
-/**
- * loadWhatsAppConfig()
- * Priority:
- *   1) localStorage (LS_WA_KEY) -> developer override
- *   2) contato-whatsapp.json (relative path) -> production config
- *   3) leave state.waNumber as-is (may be empty)
- *
- * contato-whatsapp.json accepted forms:
- *   { "whatsapp": "5511999999999" }
- *   { "wa": "5511999999999" }
- *   { "number": "5511999999999" }
- *   [ { "whatsapp": "..." }, ... ]  // will use first item
- */
 async function loadWhatsAppConfig() {
   try {
-    // 1) If developer saved a number in localStorage, prefer it (useful for admin/dev)
     const saved = localStorage.getItem(LS_WA_KEY);
     if (saved && saved.trim()) {
       state.waNumber = saved.trim();
-      // update footer if present
       const footerPhone = document.getElementById('footerPhone');
       if (footerPhone) footerPhone.href = `https://wa.me/${state.waNumber}`;
       console.log('[LimaCalixto] WhatsApp via localStorage ->', state.waNumber);
       return;
     }
 
-    // 2) Try to fetch contato-whatsapp.json (relative)
     try {
       const res = await fetch('contato-whatsapp.json', { cache: 'no-store' });
       if (!res.ok) {
@@ -258,7 +295,6 @@ async function loadWhatsAppConfig() {
         console.log('[LimaCalixto] contato-whatsapp.json carregado mas sem número válido');
       }
     } catch (e) {
-      // ignore fetch/parse errors (file may not exist in production)
       console.warn('[LimaCalixto] erro carregando contato-whatsapp.json:', e.message || e);
     }
   } catch (e) {
@@ -321,28 +357,22 @@ function render() {
     return;
   }
 
-  // apply filters & sort
   let list = applyFilters(state.products || []);
   list = applySort(list);
 
   if (countEl) countEl.textContent = `${list.length} produto${list.length === 1 ? '' : 's'} encontrado${list.length === 1 ? '.' : '.'}`;
 
-  // --- TRANSLATED / HUMANIZED ACTIVE FILTERS MESSAGE ---
   if (activeEl) {
     const noSearch = !state.query;
     const defaultSort = !state.sort || state.sort === 'default';
     if (noSearch && defaultSort) {
-      // when nothing applied
       activeEl.textContent = 'Nenhuma busca ou ordenação aplicada.';
     } else {
-      // translate sort values to human labels
       let sortLabel = 'Padrão';
       if (state.sort === 'price-asc') sortLabel = 'Menor preço';
       else if (state.sort === 'price-desc') sortLabel = 'Maior preço';
-
       const catLabel = state.category === 'todas' ? 'Todas' : state.category;
-      const buscaLabel = state.query ? `"${state.query}"` : '—';
-
+      const buscaLabel = state.query ? `"${state.query}"` : 'Ainda não foi feita nenhuma busca!';
       activeEl.textContent = `Categoria: ${catLabel} • Ordenação: ${sortLabel} • Busca: ${buscaLabel}`;
     }
   }
@@ -359,11 +389,9 @@ function render() {
     card.className = 'product-card';
     card.setAttribute('role', 'listitem');
 
-    // resolve image source used in the card (prefer explicit non-empty, otherwise placeholder)
     const imgSrc = p.image && String(p.image).trim() !== '' ? p.image : placeholder(p.name);
 
-    // create innerHTML (details button includes data-image with the effective imgSrc)
-    // NOTE: waUrl depends on state.waNumber which is loaded from localStorage OR contato-whatsapp.json
+    // waUrl depende de state.waNumber (localStorage dev OR contato-whatsapp.json prod)
     const waUrl = state.waNumber ? makeWhatsAppLink(state.waNumber, p) : null;
 
     card.innerHTML = `
@@ -372,6 +400,7 @@ function render() {
       </div>
       <div class="product-body">
         <div class="product-title">${escapeHtml(p.name)}</div>
+        <div class="product-code">Código: <strong>${escapeHtml(p.code || '')}</strong></div>
         <div class="product-desc">${escapeHtml(p.description)}</div>
         <div class="product-meta">
           <span class="badge">${escapeHtml(p.category)}</span>
@@ -392,10 +421,6 @@ function render() {
 }
 
 /* ===================== MODAL ===================== */
-/**
- * openProductModal(product, imageSrcOptional)
- * - imageSrcOptional: prefer this (from card data-image or <img>), fallback to product.image, fallback to placeholder
- */
 function openProductModal(product, imageSrcOptional) {
   try {
     let modal = document.getElementById('lcModal');
@@ -430,7 +455,6 @@ function openProductModal(product, imageSrcOptional) {
       }
     }
 
-    // resolve image
     const resolvedImg = imageSrcOptional || product.image || placeholder(product.name);
     modal.setAttribute('data-product-id', product.id);
 
@@ -455,15 +479,20 @@ function openProductModal(product, imageSrcOptional) {
   }
 }
 
-/* ===================== WhatsApp helper ===================== */
+/* ===================== WhatsApp helper (ATUALIZADA) ===================== */
+/**
+ * Agora inclui o código do produto (product.code) na mensagem, se disponível.
+ * Exemplo de mensagem resultante:
+ * Olá! Tenho interesse no produto "Caneca X" (Código: CD-0001). Pode me enviar informações e orçamento?
+ */
 function makeWhatsAppLink(number, product) {
-  const text = `Olá! Tenho interesse no produto *${product.name}* (ID:${product.id}). Pode me enviar informações e orçamento?`;
+  const codePart = product && product.code ? ` (Código: ${product.code})` : '';
+  const text = `Olá! Tenho interesse no produto "${product.name}"${codePart}. Pode me enviar informações e orçamento?`;
   return `https://wa.me/${encodeURIComponent(number)}?text=${encodeURIComponent(text)}`;
 }
 
 /* ===================== BIND UI ===================== */
 function bindUI() {
-  // find elements safely
   const searchInput = document.getElementById('searchInput');
   const categorySelect = document.getElementById('categorySelect');
   const minPriceInput = document.getElementById('minPrice');
@@ -484,7 +513,6 @@ function bindUI() {
 
   const themeToggle = document.getElementById('themeToggle');
 
-  // initialize UI from state / URL
   readStateFromUrlOnInit();
   if (searchInput) searchInput.value = state.query || '';
   if (categorySelect) categorySelect.value = state.category || 'todas';
@@ -492,32 +520,27 @@ function bindUI() {
   if (maxPriceInput && state.maxPrice != null) maxPriceInput.value = state.maxPrice;
   if (sortSelect) sortSelect.value = state.sort || 'default';
 
-  // search
   if (searchInput) searchInput.addEventListener('input', (e) => {
     state.query = (e.target.value || '').trim().toLowerCase();
     writeStateToUrl(); render();
   });
 
-  // category
   if (categorySelect) categorySelect.addEventListener('change', (e) => {
     state.category = e.target.value;
     writeStateToUrl(); render();
   });
 
-  // sorting
   if (sortSelect) sortSelect.addEventListener('change', (e) => {
     state.sort = e.target.value;
     writeStateToUrl(); render();
   });
 
-  // apply filters (min/max)
   if (applyBtn) applyBtn.addEventListener('click', () => {
     state.minPrice = (minPriceInput && minPriceInput.value !== '') ? Number(minPriceInput.value) : null;
     state.maxPrice = (maxPriceInput && maxPriceInput.value !== '') ? Number(maxPriceInput.value) : null;
     writeStateToUrl(); render();
   });
 
-  // clear filters
   if (clearBtn) clearBtn.addEventListener('click', () => {
     if (searchInput) searchInput.value = '';
     if (categorySelect) categorySelect.value = 'todas';
@@ -528,32 +551,27 @@ function bindUI() {
     writeStateToUrl(); render();
   });
 
-  // load URL JSON
   if (loadUrlBtn && externalUrl) loadUrlBtn.addEventListener('click', () => {
     const url = (externalUrl.value || '').trim();
     if (!url) return alert('Informe uma URL válida para JSON');
     loadFromUrl(url);
   });
 
-  // load file
   if (loadFileBtn && fileInput) loadFileBtn.addEventListener('click', () => {
     if (!fileInput.files || fileInput.files.length === 0) return alert('Selecione um arquivo JSON ou CSV');
     loadFromFile(fileInput.files[0]);
   });
 
-  // reset to produtos.json if available
   if (resetBtn) resetBtn.addEventListener('click', async () => {
     const ok = await loadProdutosJsonAuto();
     if (ok) { alert('Produtos recarregados de produtos.json'); render(); }
     else { alert('produtos.json não disponível — usando produtos internos'); initialLoadProducts(); }
   });
 
-  // export
   if (exportBtn) exportBtn.addEventListener('click', () => {
     exportProductsToFile(state.products);
   });
 
-  // save whatsapp number (developer/admin)
   if (saveWaBtn && waInput) saveWaBtn.addEventListener('click', () => {
     const cleaned = (waInput.value || '').replace(/\D/g, '');
     if (cleaned.length < 8) return alert('Número WhatsApp inválido');
@@ -564,7 +582,6 @@ function bindUI() {
     alert('Número salvo (developer override)');
   });
 
-  // theme toggle
   if (themeToggle) {
     themeToggle.addEventListener('click', (ev) => {
       ev.stopPropagation && ev.stopPropagation();
@@ -573,10 +590,8 @@ function bindUI() {
     });
   }
 
-  // show saved waNumber in input (dev only)
   if (waInput && state.waNumber) waInput.value = state.waNumber;
 
-  // delegation for product-level actions (details, quote). WhatsApp is an <a> and opens normally.
   document.addEventListener('click', (ev) => {
     const btn = ev.target.closest && ev.target.closest('[data-action]');
     if (!btn) return;
@@ -585,7 +600,6 @@ function bindUI() {
     const product = state.products.find(p => String(p.id) === String(id));
     if (action === 'details') {
       if (!product) { alert('Produto não encontrado'); return; }
-      // try data-image first
       let imageFromBtn = btn.getAttribute('data-image');
       if (!imageFromBtn) {
         const cardEl = btn.closest && btn.closest('.product-card');
@@ -608,32 +622,20 @@ function updateYear() {
 }
 
 /* ===================== ADMIN CONTROLS VISIBILITY (dev only) ===================== */
-/**
- * Mostra/oculta a área de upload/carregar/exportar JSON quando:
- * - hostname for "localhost" ou "127.0.0.1"
- * - protocolo for "file:" (abrindo localmente)
- * - ou quando localStorage.lc_show_admin === "1" (forçar)
- *
- * Também controla a visibilidade do bloco .whatsapp-config (dev only).
- * A exibição é controlada adicionando/removendo a classe .admin-visible — o CSS decide o display.
- */
 function toggleAdminControlsVisibility() {
   try {
     const adminContainer = document.querySelector('.external-load');
     const waConfig = document.querySelector('.whatsapp-config');
 
-    // se não existir nenhum dos dois, nada a fazer
     if (!adminContainer && !waConfig) return;
 
     const host = location.hostname || '';
     const protocol = location.protocol || '';
 
-    // condição de "dev": localhost, 127.0.0.1, file:, ou forçar via localStorage
     const forced = localStorage.getItem('lc_show_admin') === '1';
     const isLocalhost = host === 'localhost' || host === '127.0.0.1' || protocol === 'file:';
     const shouldShow = isLocalhost || forced;
 
-    // ADMIN: upload / export controls
     if (adminContainer) {
       if (shouldShow) {
         adminContainer.classList.add('admin-visible');
@@ -646,7 +648,6 @@ function toggleAdminControlsVisibility() {
       }
     }
 
-    // WHATSAPP CONFIG: mostrar apenas em dev (mesma regra)
     if (waConfig) {
       if (shouldShow) {
         waConfig.classList.add('admin-visible');
@@ -663,27 +664,15 @@ function toggleAdminControlsVisibility() {
   }
 }
 
-// chama a função ao iniciar (depois de bindUI)
 document.addEventListener('DOMContentLoaded', () => {
-  // chama assíncrono para garantir que bindUI() já executou (se bindUI for chamado em DOMContentLoaded)
   setTimeout(toggleAdminControlsVisibility, 50);
 });
-
-/* Helper: comando para forçar mostrar admin em qualquer ambiente (útil para testes)
-   Execução no console do navegador:
-     localStorage.setItem('lc_show_admin', '1'); location.reload();
-   Para desfazer:
-     localStorage.removeItem('lc_show_admin'); location.reload();
-*/
 
 /* ===================== INIT ===================== */
 document.addEventListener('DOMContentLoaded', async () => {
   try { applyTheme(readTheme()); } catch (e) { console.error(e); }
   try { await initialLoadProducts(); } catch (e) { console.error(e); }
-
-  // NEW: load whatsapp config (localStorage preferred in dev, otherwise contato-whatsapp.json)
   try { await loadWhatsAppConfig(); } catch (e) { console.error('[LimaCalixto] loadWhatsAppConfig error', e); }
-
   try { bindUI(); } catch (e) { console.error(e); }
   try { updateYear(); } catch (e) { /* ignore */ }
   try { render(); } catch (e) { console.error(e); }
@@ -698,5 +687,6 @@ window._lc = {
   saveProductsToLocalStorage,
   readProductsFromLocalStorage,
   applyTheme,
-  loadWhatsAppConfig
+  loadWhatsAppConfig,
+  assignProductCodes
 };
