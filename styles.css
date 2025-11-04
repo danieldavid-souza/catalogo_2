@@ -259,6 +259,30 @@ a.btn{ text-decoration:none; }
   }
 }
 
+/* esconder por padrão (produção) */
+.external-load,
+.whatsapp-config {
+  display: none !important;        /* garante que fique oculto independentemente de regras anteriores */
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity .2s ease, height .2s ease;
+  pointer-events: none;
+}
+
+/* quando em modo dev (classe adicionada pelo JS) mostramos */
+.external-load.admin-visible,
+.whatsapp-config.admin-visible {
+  display: block !important;
+  opacity: 1;
+  height: auto;
+  pointer-events: auto;
+}
+
+/* pequenas melhorias para garantir layout quando visível */
+.external-load.admin-visible { margin-top: 18px; padding: 18px; border-radius: 12px; }
+.whatsapp-config.admin-visible { display: flex !important; gap: 8px; align-items: center; }
+
 /* ===== Centralizar título/subtexto do Modo Desenvolvedor ===== */
 
 /* garante que o header de admin fique centralizado */
