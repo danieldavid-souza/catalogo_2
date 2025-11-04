@@ -1,27 +1,15 @@
 /**
  * script.js — Lima Calixto Catalogo (versão completa e robusta)
+ * (Versão estendida com suporte a contato-whatsapp.json em produção)
  *
- * Funcionalidades:
- * - Tenta carregar produtos.json (caminho relativo) ao iniciar
- * - Fallback: localStorage (se houve edição) -> embedded fallback
- * - Normaliza campos (pt/en): nome/name, descricao/description, categoria/category, preco/price, imagem/image
- * - Render de cards (imagem com placeholder se necessário)
- * - Botões: Detalhes (modal com imagem), Pedir orçamento (delegation), WhatsApp (anchor <a> com href)
- * - Filtros: categoria, min/max price, busca por texto, ordenação
- * - Salva filtros na URL para compartilhamento
- * - Upload JSON/CSV e exportar JSON (download)
- * - Persistência temporária de produtos no localStorage para edição em navegador
- * - Tema dark/light com persistência (localStorage)
+ * Principais mudanças:
+ * - Adicionada função loadWhatsAppConfig() que:
+ *   1) Usa localStorage (se existir) — útil em dev/admin;
+ *   2) Caso contrário tenta carregar contato-whatsapp.json (produção);
+ *   3) Suporta formatos flexíveis do JSON.
+ * - loadWhatsAppConfig() é chamada na inicialização antes do render final.
  *
- * Observações:
- * - assume que index.html possui IDs e classes:
- *   #productsGrid, #resultsCount, #activeFilters,
- *   #searchInput, #categorySelect, #minPrice, #maxPrice, #sortSelect,
- *   #applyFiltersBtn, #clearFiltersBtn,
- *   #externalUrl, #loadUrlBtn, #fileInput, #loadFileBtn, #resetToDefaultBtn, #exportBtn,
- *   #waNumberInput, #saveWaBtn, #footerPhone, #themeToggle
- *
- * - Se algum ID não existir, o script não falhará; muitas operações serão ignoradas graciosamente.
+ * O resto do script foi mantido/portado fielmente da versão que você forneceu.
  */
 
 /* ===================== KEYS / CONSTANTS ===================== */
@@ -50,7 +38,7 @@ const state = {
   minPrice: null,
   maxPrice: null,
   sort: 'default',   // use 'default' internally to match the <select> values
-  waNumber: localStorage.getItem(LS_WA_KEY) || ''
+  waNumber: localStorage.getItem(LS_WA_KEY) || '' // may be empty; loadWhatsAppConfig will try contato-whatsapp.json
 };
 
 /* ===================== THEME ===================== */
@@ -181,7 +169,7 @@ function loadFromFile(file) {
 /* ===================== LOAD produtos.json (relative) ===================== */
 async function loadProdutosJsonAuto() {
   try {
-    const res = await fetch('data/produtos.json', { cache: 'no-cache' });
+    const res = await fetch('produtos.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (!Array.isArray(data)) throw new Error('produtos.json não é um array');
@@ -215,6 +203,67 @@ async function initialLoadProducts() {
   ];
   state.products = normalizeProductsArray(embedded);
   render();
+}
+
+/* ===================== NEW: WHATSAPP CONFIG LOADER ===================== */
+/**
+ * loadWhatsAppConfig()
+ * Priority:
+ *   1) localStorage (LS_WA_KEY) -> developer override
+ *   2) contato-whatsapp.json (relative path) -> production config
+ *   3) leave state.waNumber as-is (may be empty)
+ *
+ * contato-whatsapp.json accepted forms:
+ *   { "whatsapp": "5511999999999" }
+ *   { "wa": "5511999999999" }
+ *   { "number": "5511999999999" }
+ *   [ { "whatsapp": "..." }, ... ]  // will use first item
+ */
+async function loadWhatsAppConfig() {
+  try {
+    // 1) If developer saved a number in localStorage, prefer it (useful for admin/dev)
+    const saved = localStorage.getItem(LS_WA_KEY);
+    if (saved && saved.trim()) {
+      state.waNumber = saved.trim();
+      // update footer if present
+      const footerPhone = document.getElementById('footerPhone');
+      if (footerPhone) footerPhone.href = `https://wa.me/${state.waNumber}`;
+      console.log('[LimaCalixto] WhatsApp via localStorage ->', state.waNumber);
+      return;
+    }
+
+    // 2) Try to fetch contato-whatsapp.json (relative)
+    try {
+      const res = await fetch('contato-whatsapp.json', { cache: 'no-store' });
+      if (!res.ok) {
+        console.log('[LimaCalixto] contato-whatsapp.json não encontrado (HTTP ' + res.status + ')');
+        return;
+      }
+      const data = await res.json();
+      let number = '';
+
+      if (Array.isArray(data) && data.length > 0) {
+        const first = data[0];
+        number = first.whatsapp ?? first.wa ?? first.number ?? first.tel ?? '';
+      } else if (data && typeof data === 'object') {
+        number = data.whatsapp ?? data.wa ?? data.number ?? data.tel ?? '';
+      }
+
+      if (number && String(number).trim()) {
+        state.waNumber = String(number).replace(/\D/g, '').trim();
+        const footerPhone = document.getElementById('footerPhone');
+        if (footerPhone) footerPhone.href = `https://wa.me/${state.waNumber}`;
+        console.log('[LimaCalixto] WhatsApp via contato-whatsapp.json ->', state.waNumber);
+      } else {
+        console.log('[LimaCalixto] contato-whatsapp.json carregado mas sem número válido');
+      }
+    } catch (e) {
+      // ignore fetch/parse errors (file may not exist in production)
+      console.warn('[LimaCalixto] erro carregando contato-whatsapp.json:', e.message || e);
+    }
+  } catch (e) {
+    console.error('[LimaCalixto] loadWhatsAppConfig error', e);
+  }
 }
 
 /* ===================== STATE -> URL (sharing filters) ===================== */
@@ -314,6 +363,7 @@ function render() {
     const imgSrc = p.image && String(p.image).trim() !== '' ? p.image : placeholder(p.name);
 
     // create innerHTML (details button includes data-image with the effective imgSrc)
+    // NOTE: waUrl depends on state.waNumber which is loaded from localStorage OR contato-whatsapp.json
     const waUrl = state.waNumber ? makeWhatsAppLink(state.waNumber, p) : null;
 
     card.innerHTML = `
@@ -503,7 +553,7 @@ function bindUI() {
     exportProductsToFile(state.products);
   });
 
-  // save whatsapp number
+  // save whatsapp number (developer/admin)
   if (saveWaBtn && waInput) saveWaBtn.addEventListener('click', () => {
     const cleaned = (waInput.value || '').replace(/\D/g, '');
     if (cleaned.length < 8) return alert('Número WhatsApp inválido');
@@ -511,7 +561,7 @@ function bindUI() {
     try { localStorage.setItem(LS_WA_KEY, cleaned); } catch (e) { /* ignore */ }
     const footerPhone = document.getElementById('footerPhone');
     if (footerPhone) footerPhone.href = `https://wa.me/${cleaned}`;
-    alert('Número salvo');
+    alert('Número salvo (developer override)');
   });
 
   // theme toggle
@@ -523,7 +573,7 @@ function bindUI() {
     });
   }
 
-  // show saved waNumber in input
+  // show saved waNumber in input (dev only)
   if (waInput && state.waNumber) waInput.value = state.waNumber;
 
   // delegation for product-level actions (details, quote). WhatsApp is an <a> and opens normally.
@@ -564,13 +614,13 @@ function updateYear() {
  * - protocolo for "file:" (abrindo localmente)
  * - ou quando localStorage.lc_show_admin === "1" (forçar)
  *
- * Busca o container .external-load (mesmo markup do index.html) e ajusta display + aria-hidden.
- * Também controla .whatsapp-config (visível apenas em dev).
+ * Também controla a visibilidade do bloco .whatsapp-config (dev only).
+ * A exibição é controlada adicionando/removendo a classe .admin-visible — o CSS decide o display.
  */
 function toggleAdminControlsVisibility() {
   try {
     const adminContainer = document.querySelector('.external-load');
-    const waConfig = document.querySelector('.whatsapp-config'); // área do WhatsApp no cabeçalho
+    const waConfig = document.querySelector('.whatsapp-config');
 
     // se não existir nenhum dos dois, nada a fazer
     if (!adminContainer && !waConfig) return;
@@ -586,14 +636,12 @@ function toggleAdminControlsVisibility() {
     // ADMIN: upload / export controls
     if (adminContainer) {
       if (shouldShow) {
-        adminContainer.style.display = ''; // deixa o CSS original cuidar do layout
-        adminContainer.removeAttribute('aria-hidden');
         adminContainer.classList.add('admin-visible');
+        adminContainer.removeAttribute('aria-hidden');
         console.log('[LimaCalixto] admin controls: VISIBLE (dev mode)');
       } else {
-        adminContainer.style.display = 'none';
-        adminContainer.setAttribute('aria-hidden', 'true');
         adminContainer.classList.remove('admin-visible');
+        adminContainer.setAttribute('aria-hidden', 'true');
         console.log('[LimaCalixto] admin controls: HIDDEN (prod mode)');
       }
     }
@@ -601,14 +649,12 @@ function toggleAdminControlsVisibility() {
     // WHATSAPP CONFIG: mostrar apenas em dev (mesma regra)
     if (waConfig) {
       if (shouldShow) {
-        waConfig.style.display = '';
-        waConfig.removeAttribute('aria-hidden');
         waConfig.classList.add('admin-visible');
+        waConfig.removeAttribute('aria-hidden');
         console.log('[LimaCalixto] whatsapp-config: VISIBLE (dev mode)');
       } else {
-        waConfig.style.display = 'none';
-        waConfig.setAttribute('aria-hidden', 'true');
         waConfig.classList.remove('admin-visible');
+        waConfig.setAttribute('aria-hidden', 'true');
         console.log('[LimaCalixto] whatsapp-config: HIDDEN (prod mode)');
       }
     }
@@ -634,6 +680,10 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', async () => {
   try { applyTheme(readTheme()); } catch (e) { console.error(e); }
   try { await initialLoadProducts(); } catch (e) { console.error(e); }
+
+  // NEW: load whatsapp config (localStorage preferred in dev, otherwise contato-whatsapp.json)
+  try { await loadWhatsAppConfig(); } catch (e) { console.error('[LimaCalixto] loadWhatsAppConfig error', e); }
+
   try { bindUI(); } catch (e) { console.error(e); }
   try { updateYear(); } catch (e) { /* ignore */ }
   try { render(); } catch (e) { console.error(e); }
@@ -647,5 +697,6 @@ window._lc = {
   loadFromFile,
   saveProductsToLocalStorage,
   readProductsFromLocalStorage,
-  applyTheme
+  applyTheme,
+  loadWhatsAppConfig
 };
