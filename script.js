@@ -119,7 +119,20 @@ function normalizeProductsArray(arr) {
     const description = it.description ?? it.descricao ?? it.desc ?? '';
     const category = it.category ?? it.categoria ?? 'Personalizados';
     const price = Number(it.price ?? it.preco ?? it.valor ?? 0) || 0;
-    const image = (it.image ?? it.imagem ?? it.photo ?? '').toString().trim() || '';
+    let image = (it.image ?? it.imagem ?? it.photo ?? '').toString().trim() || '';
+
+    // Se for caminho relativo, converte para URL absoluta baseada na página atual
+    // (isso garante que, mesmo dentro de in-app browsers ou subpaths, a imagem resolva)
+    try {
+      if (image && !/^data:|^https?:\/\//i.test(image)) {
+        // new URL(relativeOrAbsolute, base) resolve corretamente
+        image = new URL(image, window.location.href).href;
+      }
+    } catch (e) {
+      // se algo falhar, mantemos a string original
+      console.warn('[LimaCalixto] normalize image url error', e);
+    }
+
     return { id, name, description, category, price, image };
   });
 }
@@ -221,20 +234,42 @@ function loadFromFile(file) {
 
 /* ===================== LOAD produtos.json (relative) ===================== */
 async function loadProdutosJsonAuto() {
-  try {
-    const res = await fetch('produtos.json', { cache: 'no-cache' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    if (!Array.isArray(data)) throw new Error('produtos.json não é um array');
-    state.products = normalizeProductsArray(data);
-    assignProductCodes(state.products);
-    saveProductsToLocalStorage(state.products);
-    console.log('[LimaCalixto] produtos carregados de produtos.json');
-    return true;
-  } catch (e) {
-    console.warn('[LimaCalixto] load produtos.json failed:', e.message || e);
-    return false;
+  const candidates = [
+    'produtos.json',                                         // usual: mesmo diretório
+    './produtos.json',                                       // fallback relativo
+    '/produtos.json',                                        // raiz do domínio
+    (function(){                                             // tentar posição relativa ao path base
+      try {
+        const base = location.origin + location.pathname.replace(/\/[^/]*$/, '/');
+        return base + 'produtos.json';
+      } catch(e){ return null; }
+    })()
+  ].filter(Boolean);
+
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, { cache: 'no-cache' });
+      if (!res.ok) {
+        console.warn('[LimaCalixto] produtos json not ok', url, res.status);
+        continue;
+      }
+      const data = await res.json();
+      if (!Array.isArray(data)) {
+        console.warn('[LimaCalixto] produtos.json carregado mas não é um array:', url);
+        continue;
+      }
+      state.products = normalizeProductsArray(data);
+      assignProductCodes(state.products);
+      saveProductsToLocalStorage(state.products);
+      console.log('[LimaCalixto] produtos carregados de', url);
+      return true;
+    } catch (e) {
+      console.warn('[LimaCalixto] tentativa de carregar produtos.json falhou para', url, e && e.message ? e.message : e);
+      // tenta o próximo candidato
+    }
   }
+
+  return false;
 }
 
 /* ===================== INITIAL LOAD ===================== */
@@ -680,17 +715,18 @@ function bindUI() {
   if (shareBtn._lcShareListener) return;
   shareBtn._lcShareListener = true;
 
-  // monta a mensagem amigável com a url atual (inclui filtros via writeStateToUrl)
-  function buildShareMessage() {
+  function buildShareMessage(includeFiltersInUrl = false) {
     const siteName = 'Lima Calixto Personalizados';
-    if (typeof writeStateToUrl === 'function') writeStateToUrl(); // atualiza query string
-    const url = window.location.href;
+    // se includeFiltersInUrl = true -> usamos a URL atual com query
+    // caso contrário, compartilhamos a URL limpa (sem query) para garantir exibição completa
+    const current = window.location.href;
+    const base = includeFiltersInUrl ? current : (location.origin + location.pathname);
     return [
       `🛍️ *Catálogo ${siteName}*`,
       ``,
       `Encontre produtos de Sublimação, Personalizados e Convites Digitais — feitos com carinho 💜`,
       ``,
-      `Veja o catálogo aqui: ${url}`,
+      `Veja o catálogo aqui: ${base}`,
       ``,
       `Se quiser, posso te ajudar a encontrar algo específico!`
     ].join('\n');
@@ -702,10 +738,7 @@ function bindUI() {
         await navigator.clipboard.writeText(text);
         return true;
       }
-    } catch (e) {
-      console.warn('[LimaCalixto] clipboard API falhou', e);
-    }
-    // fallback textarea
+    } catch (e) { /* ignore */ }
     try {
       const ta = document.createElement('textarea');
       ta.value = text;
@@ -716,48 +749,38 @@ function bindUI() {
       document.execCommand('copy');
       ta.remove();
       return true;
-    } catch (e) {
-      console.warn('[LimaCalixto] execCommand copy falhou', e);
-      return false;
-    }
+    } catch (e) { return false; }
   }
 
   shareBtn.addEventListener('click', async () => {
     try {
-      const message = buildShareMessage();
-      const shareUrl = window.location.href;
+      // opcional: atualizar URL com filtros (não vamos compartilhar com filtros por padrão)
+      if (typeof writeStateToUrl === 'function') writeStateToUrl();
 
-      // primeiro: tenta Web Share API (melhor experiência mobile)
+      // montamos mensagem sem filtros — garante que quem abrir verá o catálogo completo
+      const message = buildShareMessage(false);
+      const shareBaseUrl = location.origin + location.pathname; // sem query
+
+      // 1) tentar Web Share API (pode não passar todo o texto para alguns apps)
       if (navigator.share) {
         try {
-          await navigator.share({ title: `Catálogo — Lima Calixto Personalizados`, text: message, url: shareUrl });
-          // mesmo que o usuário escolha WhatsApp via painel nativo, pode acontecer do app receber só a URL.
-          // por isso, em seguida, copiamos a mensagem completa para o clipboard e oferecemos abrir WhatsApp com texto.
+          await navigator.share({ title: 'Catálogo Lima Calixto Personalizados', text: message, url: shareBaseUrl });
         } catch (err) {
-          console.warn('[LimaCalixto] navigator.share falhou ou foi cancelado', err);
+          console.warn('[LimaCalixto] navigator.share falhou/cancelado', err);
         }
       }
 
-      // copia a mensagem completa pro clipboard (útil se o share nativo não incluiu tudo)
-      const copied = await tryCopyToClipboard(message);
-      if (copied) {
-        // informa usuário que a mensagem foi copiada
-        // (isso é importante porque se o share nativo não enviou a mensagem, o usuário pode colar manualmente)
-        // usamos confirm/alert simples para manter compatibilidade sem UI extra
-        // notifica brevemente
-        // usar alert para garantir que o usuário viu
-        alert('💜 Mensagem e link do catálogo copiados para a área de transferência. Você pode colar onde desejar.');
-      }
+      // 2) copiar mensagem completa para clipboard (para colar manualmente se necessário)
+      await tryCopyToClipboard(message);
+      alert('💜 Mensagem e link do catálogo (sem filtros) copiados. Você pode colar onde quiser.');
 
-      // pergunta se o usuário quer abrir o WhatsApp com a mensagem completa (fazer o envio direto)
-      const openWhats = confirm('Deseja abrir o WhatsApp com a mensagem completa (inclui texto e link) para enviar agora?');
-      if (openWhats) {
-        // usamos api.whatsapp.com/send?text=... sem especificar telefone para abrir a tela de seleção do contato
-        const waUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(message);
-        window.open(waUrl, '_blank', 'noopener');
+      // 3) perguntar se quer abrir WhatsApp com a mensagem completa (abre api.whatsapp.com/send?text=...)
+      if (confirm('Deseja abrir o WhatsApp com a mensagem completa (inclui texto + link) para enviar agora?')) {
+        const wa = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(message);
+        window.open(wa, '_blank', 'noopener');
       }
     } catch (e) {
-      console.error('[LimaCalixto] erro no share robusto', e);
+      console.error('[LimaCalixto] share error', e);
       alert('Ocorreu um erro ao tentar compartilhar o catálogo.');
     }
   });
