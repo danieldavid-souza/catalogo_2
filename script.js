@@ -508,10 +508,43 @@ function openProductModal(product, imageSrcOptional) {
  * Exemplo de mensagem resultante:
  * Olá! Tenho interesse no produto "Caneca X" (Código: CD-0001). Pode me enviar informações e orçamento?
  */
-function makeWhatsAppLink(number, product) {
-  const codePart = product && product.code ? ` (Código: ${product.code})` : '';
-  const text = `Olá! Tenho interesse no produto "${product.name}"${codePart}. Pode me enviar informações e orçamento?`;
-  return `https://wa.me/${encodeURIComponent(number)}?text=${encodeURIComponent(text)}`;
+/**
+ * makeWhatsAppLink(number, product, options)
+ * - number: string só com dígitos (ex: "5511999999999")
+ * - product: objeto do produto (usa .name e .code)
+ * - options: { includePageUrl: true/false, extraMessage: 'texto extra' }
+ *
+ * Retorna uma URL pronta para abrir no WhatsApp com texto já codificado contendo:
+ *  - mensagem amigável
+ *  - nome do produto
+ *  - código do produto (se houver)
+ *  - link da página (se options.includePageUrl !== false)
+ */
+function makeWhatsAppLink(number, product = {}, options = {}) {
+  const num = String(number || '').replace(/\D/g, '');
+  if (!num) return '#';
+
+  const siteUrl = (options.includePageUrl === false) ? '' : window.location.href;
+  const prodName = product && product.name ? String(product.name) : '';
+  const prodCode = product && product.code ? ` (Código: ${product.code})` : '';
+
+  // Mensagem amigável em PT-BR — personalize se quiser
+  const lines = [
+    `Olá! 👋`,
+    `Tenho interesse no produto: *${prodName}*${prodCode}.`,
+    `Por favor, você pode me enviar informações e orçamento?`
+  ];
+  if (options.extraMessage) lines.push(String(options.extraMessage));
+  if (siteUrl) {
+    lines.push('');
+    lines.push(`Ver catálogo: ${siteUrl}`);
+  }
+  const message = lines.join('\n');
+
+  // Use api.whatsapp.com/send que costuma ser mais consistente (também funciona via web)
+  const base = 'https://api.whatsapp.com/send';
+  const href = `${base}?phone=${encodeURIComponent(num)}&text=${encodeURIComponent(message)}`;
+  return href;
 }
 
 /* ===================== BIND UI ===================== */
@@ -637,6 +670,98 @@ function bindUI() {
     }
   });
 }
+
+// === Listener do botão "Compartilhar Catálogo" ===
+// Exemplo de construção de mensagem para o compartilhamento (usa mesma mensagem do makeWhatsAppLink)
+// === Handler robusto para o botão "Compartilhar Catálogo" (garante mensagem + URL no WhatsApp) ===
+(function attachShareButtonRobust(){
+  const shareBtn = document.getElementById('shareCatalogBtn');
+  if (!shareBtn) return;
+  if (shareBtn._lcShareListener) return;
+  shareBtn._lcShareListener = true;
+
+  // monta a mensagem amigável com a url atual (inclui filtros via writeStateToUrl)
+  function buildShareMessage() {
+    const siteName = 'Lima Calixto Personalizados';
+    if (typeof writeStateToUrl === 'function') writeStateToUrl(); // atualiza query string
+    const url = window.location.href;
+    return [
+      `🛍️ *Catálogo ${siteName}*`,
+      ``,
+      `Encontre produtos de Sublimação, Personalizados e Convites Digitais — feitos com carinho 💜`,
+      ``,
+      `Veja o catálogo aqui: ${url}`,
+      ``,
+      `Se quiser, posso te ajudar a encontrar algo específico!`
+    ].join('\n');
+  }
+
+  async function tryCopyToClipboard(text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (e) {
+      console.warn('[LimaCalixto] clipboard API falhou', e);
+    }
+    // fallback textarea
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      return true;
+    } catch (e) {
+      console.warn('[LimaCalixto] execCommand copy falhou', e);
+      return false;
+    }
+  }
+
+  shareBtn.addEventListener('click', async () => {
+    try {
+      const message = buildShareMessage();
+      const shareUrl = window.location.href;
+
+      // primeiro: tenta Web Share API (melhor experiência mobile)
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: `Catálogo — Lima Calixto Personalizados`, text: message, url: shareUrl });
+          // mesmo que o usuário escolha WhatsApp via painel nativo, pode acontecer do app receber só a URL.
+          // por isso, em seguida, copiamos a mensagem completa para o clipboard e oferecemos abrir WhatsApp com texto.
+        } catch (err) {
+          console.warn('[LimaCalixto] navigator.share falhou ou foi cancelado', err);
+        }
+      }
+
+      // copia a mensagem completa pro clipboard (útil se o share nativo não incluiu tudo)
+      const copied = await tryCopyToClipboard(message);
+      if (copied) {
+        // informa usuário que a mensagem foi copiada
+        // (isso é importante porque se o share nativo não enviou a mensagem, o usuário pode colar manualmente)
+        // usamos confirm/alert simples para manter compatibilidade sem UI extra
+        // notifica brevemente
+        // usar alert para garantir que o usuário viu
+        alert('💜 Mensagem e link do catálogo copiados para a área de transferência. Você pode colar onde desejar.');
+      }
+
+      // pergunta se o usuário quer abrir o WhatsApp com a mensagem completa (fazer o envio direto)
+      const openWhats = confirm('Deseja abrir o WhatsApp com a mensagem completa (inclui texto e link) para enviar agora?');
+      if (openWhats) {
+        // usamos api.whatsapp.com/send?text=... sem especificar telefone para abrir a tela de seleção do contato
+        const waUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(message);
+        window.open(waUrl, '_blank', 'noopener');
+      }
+    } catch (e) {
+      console.error('[LimaCalixto] erro no share robusto', e);
+      alert('Ocorreu um erro ao tentar compartilhar o catálogo.');
+    }
+  });
+})();
 
 /* ===================== UTIL ===================== */
 function updateYear() {

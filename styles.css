@@ -747,6 +747,31 @@ footer.site-footer img.footer-logo {
   margin-left:6px;
 }
 
+/* ================= Share button — combina com os botões de ação (lilás → ciano) ================ */
+.share-btn {
+  white-space: nowrap;            /* evita quebra do texto */
+  padding: .55rem .95rem;        /* coincide com outros botões primários */
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  min-width: 190px;              /* aumenta para evitar quebra em telas normais */
+  justify-content: center;
+}
+
+/* Ajuste do SVG para ficar alinhado e com boa escala */
+.share-btn .icon-share {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+
+/* Se quiser, garantir o mesmo comportamento hover/active do .btn.primary */
+.share-btn:hover { transform: translateY(-2px); }
+.share-btn:active { transform: translateY(0); }
+
 /* ==========================================================================
    FIM styles.css
    ========================================================================== */
