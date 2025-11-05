@@ -162,7 +162,7 @@ function readProductsFromLocalStorage() {
 }
 
 /* ===================== EXPORT / IMPORT ===================== */
-function exportProductsToFile(products, filename = 'produtos.json') {
+function exportProductsToFile(products, filename = 'data/produtos.json') {
   try {
     const blob = new Blob([JSON.stringify(products, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -236,8 +236,8 @@ function loadFromFile(file) {
 async function loadProdutosJsonAuto() {
   const candidates = [
     'produtos.json',                                         // usual: mesmo diretório
-    './produtos.json',                                       // fallback relativo
-    '/produtos.json',                                        // raiz do domínio
+    '.data/produtos.json',                                       // fallback relativo
+    'data/produtos.json',                                        // raiz do domínio
     (function(){                                             // tentar posição relativa ao path base
       try {
         const base = location.origin + location.pathname.replace(/\/[^/]*$/, '/');
