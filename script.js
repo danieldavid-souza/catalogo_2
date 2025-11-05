@@ -4,7 +4,7 @@
  * Mantém todas as funcionalidades anteriores e adiciona:
  * - assignProductCodes(products): cria campo `code` por produto (ex: "CD-0001")
  * - usa product.code também nas mensagens geradas para WhatsApp
- */
+ <!--Daneil David de Souza Lima-->*/
 
 /* ===================== KEYS / CONSTANTS ===================== */
 const LS_PRODUCTS_KEY = 'lc_products_v1';
